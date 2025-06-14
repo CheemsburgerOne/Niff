@@ -2,8 +2,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Receiver-linux_wayland", "Receiver-linux_wayland\Receiver-linux_wayland.csproj", "{F4DB84D2-8467-4CDD-BFA4-82348EE8F22E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sender-windows", "Sender-windows\Sender-windows.csproj", "{B3C42779-8243-481D-A8C3-BAD423B947E9}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -14,9 +12,5 @@ Global
 		{F4DB84D2-8467-4CDD-BFA4-82348EE8F22E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F4DB84D2-8467-4CDD-BFA4-82348EE8F22E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F4DB84D2-8467-4CDD-BFA4-82348EE8F22E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B3C42779-8243-481D-A8C3-BAD423B947E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B3C42779-8243-481D-A8C3-BAD423B947E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B3C42779-8243-481D-A8C3-BAD423B947E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B3C42779-8243-481D-A8C3-BAD423B947E9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
