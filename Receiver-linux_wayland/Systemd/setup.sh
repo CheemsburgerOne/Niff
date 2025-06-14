@@ -1,44 +1,30 @@
-﻿#!/usr/bin/bash
-# Check if the ydotooluser group exists
-if ! getent group ydotooluser > /dev/null 2>&1; then
-  
-    #If not, create usergroup that limits the access authorized to access the socket
-    sudo groupadd ydotoolusers  > /dev/null 2>&1;
-    
-    #Add root and calling user to ydotoolusers group
-    sudo adduser root ydotoolusers  > /dev/null 2>&1;
-    sudo adduser root ydotoolusers  > /dev/null 2>&1;
-    
-    #Reload the shell
-    sudo newgrp ydotoolusers  > /dev/null 2>&1;
-else
-  echo "Jest grupa"
-fi;
+﻿#!/bin/bash
 
-# Check if the file exists
-if [ ! -f "$2" ]; then
-    echo "File '$FILE_PATH' exists."
+#Script creates a ydotooluser group and assigns root to it. 
+#It creates a socket which ydotool deamon listen to and controls access to the ydotoold socket so that only desired users can interact with the socket.
+#Script also adds permanent variable required by the deamon.
+
+#Check if ydotooluser group exists, if not create it and assign to root
+if ! getent group ydotooluser > /dev/null ; then
+    groupadd ydotooluser
+    usermode -aG ydotooluser
+    newgrp ydotooluser
 else
-    echo "File '$FILE_PATH' does not exist."
+    echo "ydotooluser user already exists!"
 fi
 
-#Create usergroup that limits the access authorized to access the socket
-sudo groupadd ydotoolusers
+#Check if socket file exists and create it if necessary
+if [ ! -d /var/ydotoold ]; then
+    mkdir -p /var/ydotoold > /dev/null
+    chown :ydotooluser /var/ydotoold
+    chmod 770 /var/ydotoold
+    chmod g+s /var/ydotoold
+else
+    echo "/var/ydotoold folder already exists!"
+fi
 
-#Add root and calling user to ydotoolusers group
-sudo adduser root ydotoolusers
-sudo adduser root ydotoolusers
-
-#Reload the shell
-newgrp ydotoolusers
-
-#Create ydotoold folder and socket file
-sudo mkdir /run/ydotoold
-sudo touch /run/ydotoold/ydotoold.sock
-
-sudo chgrp -hR ydotoolusers /run/ydotoold
-
-echo 'export YDOTOOL_SOCKET="/run/ydotoold/ydotoold.sock"' > YDOTOOL_SOCKET="$HOME/.ydotool_socket"
-
-
-
+if ! grep --quiet 'YDOTOOL_SOCKET=' /etc/enviroment; then
+    echo "export YDOTOOL_SOCKET=/var/ydotoold/ydotoold.sock" | tee -a /etc/environment > /dev/null
+else
+    echo "YDOTOOL_SOCKET variable already permanent!"
+fi
