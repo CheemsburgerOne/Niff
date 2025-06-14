@@ -1,0 +1,16 @@
+﻿[Unit]
+Description=Niff - virtual remote keyboard receiver
+After=graphical.target
+Requires=ydotoold.service
+
+[Service]
+WorkingDirectory=/usr/bin/niffr
+ExecStart=/usr/bin/dotnet /usr/bin/niffr/
+Restart=always
+RestartSec=10
+SyslogIdentifier=niffr
+# Optionally, specify a User= if you want to run the service as a non-root user.
+User=root
+
+[Install]
+WantedBy=multi-user.target
