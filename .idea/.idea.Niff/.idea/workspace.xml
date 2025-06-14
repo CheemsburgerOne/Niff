@@ -9,20 +9,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="778b2152-c3d5-434f-bcd9-a59e57b47302" name="Changes" comment="init">
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.Niff/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.Niff/.idea/indexLayout.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.Niff/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.Niff/.idea/projectSettingsUpdater.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.Niff/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Receiver-linux_wayland/LICENSE" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Receiver-linux_wayland/Systemd/niffd.service" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Receiver-linux_wayland/Systemd/setup.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Receiver-linux_wayland/Systemd/ydotoold.service" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sender-windows/LICENSE" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Niff.sln" beforeDir="false" afterPath="$PROJECT_DIR$/Niff.sln" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Test/Program.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Test/Test.csproj" beforeDir="false" />
+    <list default="true" id="778b2152-c3d5-434f-bcd9-a59e57b47302" name="Changes" comment="restore">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Niff/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Niff/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -136,7 +124,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1749906935186</updated>
-      <workItem from="1749906937445" duration="1903000" />
+      <workItem from="1749906937445" duration="3791000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <option name="closed" value="true" />
@@ -146,7 +134,15 @@
       <option name="project" value="LOCAL" />
       <updated>1749907036957</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="restore">
+      <option name="closed" value="true" />
+      <created>1749914816691</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1749914816691</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -180,6 +176,7 @@
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="init" />
-    <option name="LAST_COMMIT_MESSAGE" value="init" />
+    <MESSAGE value="restore" />
+    <option name="LAST_COMMIT_MESSAGE" value="restore" />
   </component>
 </project>
