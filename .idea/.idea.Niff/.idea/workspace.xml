@@ -10,18 +10,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="778b2152-c3d5-434f-bcd9-a59e57b47302" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Sender-windows/Connection/Contants.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sender-windows/Connection/Core.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sender-windows/Connection/Tasks.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sender-windows/Connection/Utils.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Niff/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Niff/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Niff.sln" beforeDir="false" afterPath="$PROJECT_DIR$/Niff.sln" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Sender-windows/ConnectionManager.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Sender-windows/KeyStateManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Sender-windows/KeyStateManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Sender-windows/MainWindow.xaml" beforeDir="false" afterPath="$PROJECT_DIR$/Sender-windows/MainWindow.xaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Sender-windows/MainWindow.xaml.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Sender-windows/MainWindow.xaml.cs" afterDir="false" />
-    </list>
+    <list default="true" id="778b2152-c3d5-434f-bcd9-a59e57b47302" name="Changes" comment="v0.0.1" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -181,7 +170,7 @@
       <workItem from="1750509437985" duration="4847000" />
       <workItem from="1750669045174" duration="5770000" />
       <workItem from="1750863923494" duration="18363000" />
-      <workItem from="1750917990241" duration="5840000" />
+      <workItem from="1750917990241" duration="5964000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <option name="closed" value="true" />
@@ -199,7 +188,15 @@
       <option name="project" value="LOCAL" />
       <updated>1749914816691</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="v0.0.1">
+      <option name="closed" value="true" />
+      <created>1750925248024</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1750925248024</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -234,7 +231,8 @@
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="init" />
     <MESSAGE value="restore" />
-    <option name="LAST_COMMIT_MESSAGE" value="restore" />
+    <MESSAGE value="v0.0.1" />
+    <option name="LAST_COMMIT_MESSAGE" value="v0.0.1" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
