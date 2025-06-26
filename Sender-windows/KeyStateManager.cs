@@ -3,39 +3,28 @@ using System.Text;
 using System.Text.Json;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Sender_windows.Connection;
 
 namespace Sender_windows;
 
 public class KeyStateManager
 {
-    private readonly ConcurrentQueue<KeyEventArgs> _eventQueue = new ConcurrentQueue<KeyEventArgs>();
-    private readonly ConnectionManager _connectionManager;
-
+    private Action<byte[]> _dispatch;
     private Label? _debugLabel;
 
-    public KeyStateManager(ConnectionManager connectionManager, Label debugLabel)
+    public KeyStateManager(Action<byte[]> dispatch)
     {
-        _connectionManager = connectionManager;
-        _debugLabel = debugLabel;
+        _dispatch = dispatch;
     }
 
     public void Debug(Label label) => _debugLabel = label;
 
-    public async Task Event(KeyEventArgs keyEvent)
+    public void Event(KeyEventArgs keyEvent)
     {
-        _eventQueue.Enqueue(keyEvent);
-        await Process();
-    }
-
-    private async Task Process()
-    {
-        if (_eventQueue.TryDequeue(out KeyEventArgs keyEvent))
-        {
-            _debugLabel.Content =$"Key: {keyEvent.Key.ToString()}\nToogle: {keyEvent.IsToggled.ToString().ToLower()}\nPressed: {keyEvent.IsRepeat.ToString()}";
-            byte[]? data = SerializeKeyEvent(keyEvent);
-            if (data == null) return;
-            _connectionManager.Send(data);
-        }
+        //_debugLabel.Content =$"Key: {keyEvent.Key.ToString()}\nToogle: {keyEvent.IsToggled.ToString().ToLower()}\nPressed: {keyEvent.IsRepeat.ToString()}";
+        byte[]? data = SerializeKeyEvent(keyEvent);
+        if (data == null) return;
+        _dispatch(data);
     }
 
     private static byte[]? SerializeKeyEvent(KeyEventArgs keyEvent)

@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Sender_windows"
         mc:Ignorable="d"
-        Title="Niff client" Height="450" Width="800"
+        Title="Niff client" Height="325" Width="800"
+        KeyUp="DispatchKeyEvent"
+        KeyDown="DispatchKeyEvent"
         >
     <Grid Margin="10">
         <Grid.RowDefinitions>
@@ -15,6 +17,7 @@
             <RowDefinition Height="Auto"/>   <!-- Wiersz na radio buttons -->
             <RowDefinition Height="Auto"/>   <!-- Wiersz na przyciski -->
             <RowDefinition Height="Auto"/>   <!-- Wiersz z tekstem klawiszy -->
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -39,33 +42,29 @@
         
         <!-- Panel z radio buttons -->
         <StackPanel Grid.Row="3" Grid.ColumnSpan="2" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
-            <RadioButton x:Name="S1Radio" x:FieldModifier="public" Content="Waiting" Margin="5,0" IsChecked="True" IsEnabled="False"/>
+            <RadioButton x:Name="S1Radio" x:FieldModifier="public" GroupName="ConnectionStateGroup"  Content="Waiting" Margin="5,0" IsChecked="True" IsEnabled="False"/>
             <TextBlock Text="→" Margin="5,0" VerticalAlignment="Center"/>
-            <RadioButton x:Name="S2Radio" x:FieldModifier="public" Content="Refused" Margin="5,0" IsEnabled="False"/>
+            <RadioButton x:Name="S2Radio" x:FieldModifier="public" GroupName="ConnectionStateGroup" Content="Connecting" Margin="5,0" IsEnabled="False"/>
             <TextBlock Text="→" Margin="5,0" VerticalAlignment="Center"/>
-            <RadioButton x:Name="S3Radio" x:FieldModifier="public" Content="Connecting" Margin="5,0" IsEnabled="False"/>
+            <RadioButton x:Name="S3Radio" x:FieldModifier="public" GroupName="ConnectionStateGroup" Content="Timeout / Refused" Margin="5,0" IsEnabled="False"/>
             <TextBlock Text="→" Margin="5,0" VerticalAlignment="Center"/>
-            <RadioButton x:Name="S4Radio" x:FieldModifier="public" Content="Connected" Margin="5,0" IsEnabled="False"/>
+            <RadioButton x:Name="S4Radio" x:FieldModifier="public" GroupName="ConnectionStateGroup" Content="Connected" Margin="5,0" IsEnabled="False"/>
             <TextBlock Text="→" Margin="5,0" VerticalAlignment="Center"/>
-            <RadioButton x:Name="S5Radio" x:FieldModifier="public" Content="Disconnected" Margin="5,0" IsEnabled="False"/>
+            <RadioButton x:Name="S5Radio" x:FieldModifier="public" GroupName="ConnectionStateGroup" Content="Disconnected" Margin="5,0" IsEnabled="False"/>
+        </StackPanel>
+        
+        <StackPanel Grid.Row="4" Grid.ColumnSpan="2" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
+            <Label x:Name="HeartbeatStatusLabel" Content="Not connected" ></Label>
         </StackPanel>
         
         <!-- Panel z przyciskami -->
-        <StackPanel Grid.Row="4" Grid.ColumnSpan="2" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
-            <Button Name="CancelButton" Content="Cancel" Width="250" Margin="5,0" />
+        <StackPanel Grid.Row="5" Grid.ColumnSpan="2" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
+            <Button Name="DisconnectButton" Content="Disconnect" Width="250" Margin="5,0" IsEnabled="False" Click="DisconnectButton_OnClick"/>
             <Button Name="ConnectButton" Content="Connect" Width="250" Margin="5,0" Click="ConnectButton_OnClick" />
         </StackPanel>
-        <StackPanel Margin="15px" Grid.Row="5" Grid.RowSpan="2" Grid.ColumnSpan="2" Grid.Column="0">
-            <TextBox x:Name="InputKeyField" Height="100" 
-                     KeyDown="InputKeyField_OnKeyDown" 
-                     KeyUp="InputKeyField_OnKeyUp"
-                     TextChanged="InputKeyField_OnTextChanged"></TextBox>
+        <StackPanel Margin="15px" Grid.Row="6" Grid.RowSpan="2" Grid.ColumnSpan="2" Grid.Column="0">
+            <Label x:Name="InputKeyField" Height="100" Content="Enter keys here" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" ></Label>
         </StackPanel>
-        <StackPanel Margin="15px" Grid.Row="7" Grid.ColumnSpan="2" Grid.Column="0">
-            <Label x:Name="DebugLabel" Height="120"></Label>
-        </StackPanel>
-        
-        
     </Grid>
 
 </Window>
