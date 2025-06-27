@@ -10,14 +10,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="778b2152-c3d5-434f-bcd9-a59e57b47302" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Receiver-linux_wayland/Core/Receiver.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Receiver-linux_wayland/KeyStorage/Key.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Receiver-linux_wayland/KeyStorage/KeyIdentifiersFileLoader.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Receiver-linux_wayland/KeyStorage/KeyStore.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Niff/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Niff/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Receiver-linux_wayland/Worker.cs" beforeDir="false" />
-    </list>
+    <list default="true" id="778b2152-c3d5-434f-bcd9-a59e57b47302" name="Changes" comment="vip" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -142,6 +135,7 @@
       <workItem from="1749906937445" duration="1903000" />
       <workItem from="1750935087307" duration="706000" />
       <workItem from="1751010759114" duration="1800000" />
+      <workItem from="1751049349676" duration="748000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <option name="closed" value="true" />
@@ -151,7 +145,15 @@
       <option name="project" value="LOCAL" />
       <updated>1749907036957</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="vip">
+      <option name="closed" value="true" />
+      <created>1751050069013</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1751050069013</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -185,6 +187,7 @@
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="init" />
-    <option name="LAST_COMMIT_MESSAGE" value="init" />
+    <MESSAGE value="vip" />
+    <option name="LAST_COMMIT_MESSAGE" value="vip" />
   </component>
 </project>
