@@ -77,6 +77,7 @@ public partial class MainWindow : Window
         HbPortTextbox.IsEnabled = true;
         ConnectButton.IsEnabled = true;
         DisconnectButton.IsEnabled = false;
+        _keyStateManager.Write();
     }
 
     private void InputKeyField_OnTextChanged(object sender, TextChangedEventArgs e) => ((TextBox)sender).Text = _emptyString;
