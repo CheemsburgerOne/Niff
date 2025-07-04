@@ -10,12 +10,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="778b2152-c3d5-434f-bcd9-a59e57b47302" name="Changes" comment="v0.0.1">
-      <change afterPath="$PROJECT_DIR$/Receiver-linux_wayland/Core/Key.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Receiver-linux_wayland/Core/KeyStateManager.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Receiver-linux_wayland/translation-codes" afterDir="false" />
+    <list default="true" id="778b2152-c3d5-434f-bcd9-a59e57b47302" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Receiver-linux_wayland/Core/Constants.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Receiver-linux_wayland/Core/Network/KeyEventDto.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Receiver-linux_wayland/Core/Network/NetworkManager.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Receiver-linux_wayland/Core/Network/PacketFlags.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Niff/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Niff/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Receiver-linux_wayland/input-event-codes.h" beforeDir="false" afterPath="$PROJECT_DIR$/Receiver-linux_wayland/input-event-codes.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Niff.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/Niff.sln.DotSettings.user" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Receiver-linux_wayland/Core/Key.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Receiver-linux_wayland/Core/Key.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Receiver-linux_wayland/Core/KeyStateManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Receiver-linux_wayland/Core/KeyStateManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Receiver-linux_wayland/Core/Receiver.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Receiver-linux_wayland/translation-codes" beforeDir="false" afterPath="$PROJECT_DIR$/Receiver-linux_wayland/translation-codes" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,7 +54,7 @@
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/c73b3c6c598640c592fd3c6fa226c286e90908/0d/d5b7eb35/Task`1.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/c73b3c6c598640c592fd3c6fa226c286e90908/0d/d5b7eb35/Task`1.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/c73b3c6c598640c592fd3c6fa226c286e90908/37/6c0b0159/ExceptionDispatchInfo.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/c73b3c6c598640c592fd3c6fa226c286e90908/47/6dfc0ce8/DefaultInterpolatedStringHandler.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/c73b3c6c598640c592fd3c6fa226c286e90908/7c/1b3e4f22/IProgress`1.cs" root0="SKIP_HIGHLIGHTING" />
@@ -57,6 +62,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/c73b3c6c598640c592fd3c6fa226c286e90908/f0/6324d8c9/String.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/f1c67045246b40d9b627ba512fc2e1cc47918/fe/281a970f/BlockingCollection`1.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/1b81cb3be224213a6a73519b6e340a628d9a1fb8629c351a186a26f6376669/List.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/29b9095b6f479d183d31fb8dd32510123adcee3a46474dbed1ac25328dbb4c/Array.CoreCLR.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/2e8b8aa5d488ba9b46d9ca2a747d6895994b3519f2f231f4e3d1af87b86320/UnsafeNativeMethodsCLR.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/338efc8c78ffd1de56cecc4647ebd34d18f958c8a0963d89a12b9ea90a4ae/ExceptionWrapper.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/36f665b21e7717ba19919a2441934630c497fe7eb3112cafcded963e97a13d72/SequenceEqual.cs" root0="FORCE_HIGHLIGHTING" />
@@ -66,24 +72,25 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/3f85252bab3278d84522328dc778399d0edfa6ccb95ef6add9f54ec4bcad7f/HwndSubclass.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/41b55a73ecec37407e264ceafaa271a56eea37e7cc5e533cd82c5164c6ebb4/ButtonBase.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/4d6438d815fd5f2639eace5b4594bc7b840b91f1d047c34da729b3f3bb9c/UDPClient.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/57a25df0bcee58e116617434015fce7a97597cf294bb851e6d8b44c1d19d2d/Socket.Tasks.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/5a92a0668816e85b7388ec96577c494cad907cd4d7aa6278cc1556c2176ade8c/UIElement.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/65b37f26ade0e214e19eb27f8c86af61cda94282812146144885e586a92473/Socket.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/6c68e382dd7d1513c90bf1b93d0671d5a8b9279be2ade6a37ef0bd75fa3d9c/Progress.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/8c74cab2e127b0da92bb6c88c5aface244f17cd3f87aadd2887951e8581fb3df/ConcurrentQueue.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/9769f0874b89d9a174c39e6c977aef6d979daefa49c7f3c239ef268493ea12/SemaphoreSlim.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/9769f0874b89d9a174c39e6c977aef6d979daefa49c7f3c239ef268493ea12/SemaphoreSlim.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/9c6786cf10159cbf37b78bcdb0ae889ddfe6433b550124084e4c5ca28f16aa6/Byte.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/a2353713abb3192e8bc4c5d0dbed18809a55cbbd9a8ee67c91595d5ffa3d82f/BlockingCollection.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/acafaf2f613ae0e235677ffb1daeccacbf829d7bc635636824ff1d9dde3d7b58/KeyEventArgs.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/ae4de3ab824d7c5ae4b82a9f35f8c5171af8e2131b3cebe1e4508fefa3fb8b8f/FlagsAttribute.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/afa162d5f3cdf5693ac5318523a010754eb3146d985697f3d74a471e2c3238/EventRoute.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/c95cc11827d6bccc42fd2e53e55a3e13855796d86341646ce43dce1407b6fdd/Dispatcher.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/cab54c7c1f8d9b3da5f7878e39faba52467f16d0899a2c4b10086cb2ef73f2b/WaitHandle.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/d0165cb640e16fb3b8fe6932c042fc2917cd7f2770ff123cf7b9d11b5bfc6/Task.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/d0165cb640e16fb3b8fe6932c042fc2917cd7f2770ff123cf7b9d11b5bfc6/Task.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/de8a243f75215d958afa80cf80a41b4981a44efea7db93bffcdaf7bd6ba378c0/Number.Parsing.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/e4c59ecf2285bd73c67c23a96494bd21f2a54125734533573bc197eebaf7ac6/HwndWrapper.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/ef78b940915851960a75bd79b3393c581c2e6fcd3ebfa56b9186323ee9cfe/SynchronizationContext.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/ef78b940915851960a75bd79b3393c581c2e6fcd3ebfa56b9186323ee9cfe/SynchronizationContext.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/f5c5fabf10b2751774ff136491ac41fbc0932fbd1315879ac29f2d13e2ad24b/Monitor.CoreCLR.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/f7da8522615cbe3581243dec4dc7b79c96593f642a9b75868fef377e69c958/Key.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/dpasz/Desktop/Niff/Sender-windows/KeyStateManager.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/dpasz/Desktop/Niff/Sender-windows/MainWindow.xaml.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="KubernetesApiPersistence">{}</component>
   <component name="KubernetesApiProvider">{
@@ -100,27 +107,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    ".NET Project.Sender-windows.executor": "Run",
-    ".NET Project.Tester.executor": "Run",
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Publish to folder.Default Publish.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "XThreadsFramesViewSplitterKey": "0.1598086",
-    "git-widget-placeholder": "develop-receiver-linux__wayland",
-    "ignore.virus.scanning.warn.message": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "org.jetbrains.plugins.github.ui.GithubSettingsConfigurable",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;.NET Project.Sender-windows.executor&quot;: &quot;Run&quot;,
+    &quot;.NET Project.Tester.executor&quot;: &quot;Run&quot;,
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Publish to folder.Default Publish.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;XThreadsFramesViewSplitterKey&quot;: &quot;0.1598086&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;develop-receiver-linux__wayland&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;org.jetbrains.plugins.github.ui.GithubSettingsConfigurable&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected=".NET Project.Sender-windows">
     <configuration name="Default Publish" type="DotNetFolderPublish" factoryName="Publish to folder">
       <riderPublish configuration="Release" platform="Any CPU" runtime="win-x64" target_folder="$PROJECT_DIR$/Sender-windows/bin/Release/net9.0-windows/win-x64/publish" target_framework="net9.0-windows" uuid_high="-5493222242655188963" uuid_low="-6285975234583902231" />
@@ -182,6 +189,9 @@
       <workItem from="1750669045174" duration="5770000" />
       <workItem from="1750863923494" duration="18363000" />
       <workItem from="1750917990241" duration="5964000" />
+      <workItem from="1751212857795" duration="8147000" />
+      <workItem from="1751459141995" duration="3156000" />
+      <workItem from="1751654756526" duration="1100000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <option name="closed" value="true" />
@@ -207,7 +217,15 @@
       <option name="project" value="LOCAL" />
       <updated>1750925248024</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="todo">
+      <option name="closed" value="true" />
+      <created>1751141770186</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1751141770186</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -243,7 +261,8 @@
     <MESSAGE value="init" />
     <MESSAGE value="restore" />
     <MESSAGE value="v0.0.1" />
-    <option name="LAST_COMMIT_MESSAGE" value="v0.0.1" />
+    <MESSAGE value="todo" />
+    <option name="LAST_COMMIT_MESSAGE" value="todo" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
