@@ -8,7 +8,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Sender_windows.Connection;
 
 namespace Sender_windows;
 
@@ -17,18 +16,18 @@ namespace Sender_windows;
 /// </summary>
 public partial class MainWindow : Window
 {
-    private Connection.Connection _connection;
+    private Network.Network.ConnectionManager _connection;
     private KeyStateManager _keyStateManager;
     
-    private Progress<(int, string?, bool?)> radioButtonsProgress;
-    private Progress<string> heartbeatStatusLabelProgress;
-    private Progress<string> keyPressedLabelProgress;
+    private readonly Progress<(int, string?, bool?)> _radioButtonsProgress;
+    // private readonly Progress<string> _heartbeatStatusLabelProgress;
     
     private readonly string _emptyString = "";
     private readonly List<RadioButton> _radioButtons;
     
     public MainWindow()
     {
+        // this._keyPressedLabelProgress = keyPressedLabelProgress;
         InitializeComponent();
         
         _radioButtons =
@@ -40,13 +39,13 @@ public partial class MainWindow : Window
             S5Radio
         ];
 
-        radioButtonsProgress = new Progress<(int, string?, bool?)>(tuple => ModifyRadioButton(tuple.Item1, tuple.Item2, tuple.Item3));
-        heartbeatStatusLabelProgress = new Progress<string>(content => HeartbeatStatusLabel.Content = content);
+        // _radioButtonsProgress = new Progress<(int, string?, bool?)>(tuple => ModifyRadioButton(tuple.Item1, tuple.Item2, tuple.Item3));
+        // _heartbeatStatusLabelProgress = new Progress<string>(content => HeartbeatStatusLabel.Content = content);
     }
 
     private async void ConnectButton_OnClick(object sender, RoutedEventArgs e)
     {
-        _connection = new Connection.Connection(radioButtonsProgress, heartbeatStatusLabelProgress);
+        _connection = new Network.Network.ConnectionManager();
         // await _connectionManager.Connect(
         //     HostnameTextbox.Text, 
         //     int.Parse(PortTextbox.Text),
@@ -56,16 +55,16 @@ public partial class MainWindow : Window
         HbPortTextbox.IsEnabled = false;
         ConnectButton.IsEnabled = false;
 
-        bool success = await _connection.Connect(HostnameTextbox.Text, 0, 0);
-        _keyStateManager = new KeyStateManager(_connection.Send);
+        // bool success = await _connection.Connect(HostnameTextbox.Text, 0, 0);
+        // _keyStateManager = new KeyStateManager(_connection.Send);
         //If connecting failed revert states
-        if (!success)
-        { 
-            HostnameTextbox.IsEnabled = true;
-            PortTextbox.IsEnabled = true;
-            HbPortTextbox.IsEnabled = true;
-            ConnectButton.IsEnabled = true;
-        }
+        // if (!success)
+        // { 
+        //     HostnameTextbox.IsEnabled = true;
+        //     PortTextbox.IsEnabled = true;
+        //     HbPortTextbox.IsEnabled = true;
+        //     ConnectButton.IsEnabled = true;
+        // }
         
         DisconnectButton.IsEnabled = true;
     }

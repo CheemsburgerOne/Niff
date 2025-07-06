@@ -10,10 +10,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="778b2152-c3d5-434f-bcd9-a59e57b47302" name="Changes" comment="v0.0.1">
-      <change afterPath="$PROJECT_DIR$/Sender-windows/DebugKeys" afterDir="false" />
+    <list default="true" id="778b2152-c3d5-434f-bcd9-a59e57b47302" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Sender-windows/Network/ConnectionManager.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sender-windows/Network/HeartbeatReportUtils.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sender-windows/Network/Packet.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sender-windows/Network/PacketFlags.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sender-windows/Network/PacketReceiveResult.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Niff/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Niff/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Niff.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/Niff.sln.DotSettings.user" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sender-windows/Connection/Contants.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sender-windows/Connection/Core.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sender-windows/Connection/Tasks.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Sender-windows/Network/Tasks.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sender-windows/Connection/Utils.cs" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Sender-windows/KeyStateManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Sender-windows/KeyStateManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Sender-windows/MainWindow.xaml.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Sender-windows/MainWindow.xaml.cs" afterDir="false" />
     </list>
@@ -57,6 +65,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/c73b3c6c598640c592fd3c6fa226c286e90908/f0/6324d8c9/String.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/f1c67045246b40d9b627ba512fc2e1cc47918/fe/281a970f/BlockingCollection`1.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/1b81cb3be224213a6a73519b6e340a628d9a1fb8629c351a186a26f6376669/List.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/29b9095b6f479d183d31fb8dd32510123adcee3a46474dbed1ac25328dbb4c/Array.CoreCLR.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/2e8b8aa5d488ba9b46d9ca2a747d6895994b3519f2f231f4e3d1af87b86320/UnsafeNativeMethodsCLR.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/338efc8c78ffd1de56cecc4647ebd34d18f958c8a0963d89a12b9ea90a4ae/ExceptionWrapper.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/36f665b21e7717ba19919a2441934630c497fe7eb3112cafcded963e97a13d72/SequenceEqual.cs" root0="FORCE_HIGHLIGHTING" />
@@ -65,14 +74,18 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/3c92637ae2e83da0a63791071c41eae291d594156062866d8621b7ed7245c/CastHelpers.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/3f85252bab3278d84522328dc778399d0edfa6ccb95ef6add9f54ec4bcad7f/HwndSubclass.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/41b55a73ecec37407e264ceafaa271a56eea37e7cc5e533cd82c5164c6ebb4/ButtonBase.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/49ead4a771535a76d2fe960312dbfc284973bf3758839f97e212c2396b3fa/Array.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/4d6438d815fd5f2639eace5b4594bc7b840b91f1d047c34da729b3f3bb9c/UDPClient.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/57a25df0bcee58e116617434015fce7a97597cf294bb851e6d8b44c1d19d2d/Socket.Tasks.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/5a92a0668816e85b7388ec96577c494cad907cd4d7aa6278cc1556c2176ade8c/UIElement.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/65b37f26ade0e214e19eb27f8c86af61cda94282812146144885e586a92473/Socket.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/6c68e382dd7d1513c90bf1b93d0671d5a8b9279be2ade6a37ef0bd75fa3d9c/Progress.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/8c74cab2e127b0da92bb6c88c5aface244f17cd3f87aadd2887951e8581fb3df/ConcurrentQueue.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/9769f0874b89d9a174c39e6c977aef6d979daefa49c7f3c239ef268493ea12/SemaphoreSlim.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/9c6786cf10159cbf37b78bcdb0ae889ddfe6433b550124084e4c5ca28f16aa6/Byte.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/a2353713abb3192e8bc4c5d0dbed18809a55cbbd9a8ee67c91595d5ffa3d82f/BlockingCollection.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/acafaf2f613ae0e235677ffb1daeccacbf829d7bc635636824ff1d9dde3d7b58/KeyEventArgs.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/acafaf2f613ae0e235677ffb1daeccacbf829d7bc635636824ff1d9dde3d7b58/KeyEventArgs.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/ae4de3ab824d7c5ae4b82a9f35f8c5171af8e2131b3cebe1e4508fefa3fb8b8f/FlagsAttribute.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/afa162d5f3cdf5693ac5318523a010754eb3146d985697f3d74a471e2c3238/EventRoute.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/c95cc11827d6bccc42fd2e53e55a3e13855796d86341646ce43dce1407b6fdd/Dispatcher.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/cab54c7c1f8d9b3da5f7878e39faba52467f16d0899a2c4b10086cb2ef73f2b/WaitHandle.cs" root0="FORCE_HIGHLIGHTING" />
@@ -83,11 +96,11 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/f5c5fabf10b2751774ff136491ac41fbc0932fbd1315879ac29f2d13e2ad24b/Monitor.CoreCLR.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/f7da8522615cbe3581243dec4dc7b79c96593f642a9b75868fef377e69c958/Key.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Sender-windows/AssemblyInfo.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Sender-windows/Connection/Core.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Sender-windows/Connection/Utils.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Sender-windows/KeyEventArgsSerializedDto.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Sender-windows/KeyStateManager.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Sender-windows/MainWindow.xaml.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Sender-windows/Network/ConnectionManager.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Sender-windows/Network/Tasks.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Tester/KeyEventArgsSerializedDto.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Tester/Program.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
@@ -188,6 +201,7 @@
       <workItem from="1750669045174" duration="5770000" />
       <workItem from="1750863923494" duration="18363000" />
       <workItem from="1750917990241" duration="5964000" />
+      <workItem from="1751748747165" duration="6633000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <option name="closed" value="true" />
@@ -255,27 +269,27 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Sender-windows/Connection/Core.cs</url>
+          <url>file://$PROJECT_DIR$/Sender-windows/Network/ConnectionManager.cs</url>
           <line>100</line>
           <properties documentPath="C:\Users\dpasz\Desktop\Niff\Sender-windows\Connection\Core.cs" containingFunctionPresentation="Method 'Disconnect'">
             <startOffsets>
-              <option value="3860" />
+              <option value="4435" />
             </startOffsets>
             <endOffsets>
-              <option value="3907" />
+              <option value="4436" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="55" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Sender-windows/KeyStateManager.cs</url>
-          <line>37</line>
+          <line>36</line>
           <properties documentPath="C:\Users\dpasz\Desktop\Niff\Sender-windows\KeyStateManager.cs" containingFunctionPresentation="Method 'Event'">
             <startOffsets>
-              <option value="961" />
+              <option value="928" />
             </startOffsets>
             <endOffsets>
-              <option value="1006" />
+              <option value="973" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="57" />

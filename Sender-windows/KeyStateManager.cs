@@ -4,7 +4,6 @@ using System.Text;
 using System.Text.Json;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Sender_windows.Connection;
 
 namespace Sender_windows;
 
