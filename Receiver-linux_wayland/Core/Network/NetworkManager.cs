@@ -8,10 +8,10 @@ public static partial class Network
     public class NetworkManager
     {
         private UdpClient _client;
-        private int _clientHbPort;
+
         private Func<Receiver_linux_wayland.Core.Core.KeyEventDto, string> _keyEventHandler;
 
-        public NetworkManager(int listenPort, Func<Receiver_linux_wayland.Core.Core.KeyEventDto, string> keyEventHandler)
+        public NetworkManager()
         {
             _client = new UdpClient(listenPort);
             _keyEventHandler = keyEventHandler;
