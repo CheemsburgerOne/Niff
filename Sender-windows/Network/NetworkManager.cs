@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Runtime.CompilerServices;
 using System.Text;
+using Sender_windows.Network.Payload;
 
 namespace Sender_windows.Network;
 
@@ -17,7 +18,8 @@ public static partial class Network
     public partial class NetworkManager
     {
         private readonly Lock _operationIdLock = new Lock();
-        private byte _operationId = 0;
+        private int _operationId = 0;
+        private readonly List<PendingOperation> _pendingOperationsAwaitingAck = new List<PendingOperation>(10);
         
         //Udp client
         private readonly Lock _sendLock = new Lock();
@@ -26,46 +28,20 @@ public static partial class Network
 
         private UdpClient _client;
         
-        //Sending tasks
-        // private ConfiguredTaskAwaitable _heartbeatTask;
-        // private readonly CancellationTokenSource _heartbeatCancellationTokenSource = new CancellationTokenSource();
-        // private Task _sendTask;
-        // private readonly CancellationTokenSource _sendCancellationTokenSource = new CancellationTokenSource();
-        
         public async Task<bool> TryConnect(string hostname, int port, int hbPort)
         {
-            //Set radio to Connecting
-            // _radioButtonsProgress.Report((1, null, true));
             //Setup client parameters and heartbeat port
             _client = new UdpClient(hbPort);
             _client.MulticastLoopback = false;
-             
-            //Begin handshake, throw error after timeout
+            
             try
             {
                 _client.Connect(hostname, port);
-                // await PerformHandshake(
-                //     hbPort,
-                //     10,
-                //     i => _radioButtonsProgress.Report( (1, $"Connecting ({i}s)", null) ) );
             }
             catch (Exception ex)
             {
-                //Set radio_1 to basic label
-                // _radioButtonsProgress.Report((1, "Connecting", null));
-                //Set radio_2 Timeout / refused as active, then abort
-                // _radioButtonsProgress.Report((2, null, true));
                 return false;
             }
-            
-            //Return radio 1 to default 
-            // _radioButtonsProgress.Report((1, "Connecting", null));
-            //Set radio to connected, run and await sending tasks
-            // _radioButtonsProgress.Report((3, null, true));
-
-            // _sendTask = Task.Run(async () => await BeginSend(_sendCancellationTokenSource) );
-            // _heartbeatTask = BeginHeartbeat(15000, 30000, 3, _heartbeatCancellationTokenSource).ConfigureAwait(false);
-            
             return true;
         }
         
@@ -108,20 +84,26 @@ public static partial class Network
             
         }
         
-        public void SendPacket<T>(PacketFlags flags, T data)
+        public void SendPacket<T>(PacketFlags flags, IPayload<T> payload)
         {
-            byte lockedOperationId;
-            lock(_operationIdLock)
+            int operationId = AcquireOperationId();
+            Packet packet = new Packet(operationId, flags);
+            if (!packet.WithPayload(payload))
             {
-                _operationId = _operationId++;
-                lockedOperationId = _operationId;
+                //If loading the payload has failed, flag this operationId as no action
+                packet = new Packet(operationId, PacketFlags.None);
             }
-            
-            Packet<T> packet = new Packet<T>(lockedOperationId, flags, data);
             byte[]? bytes = packet.Serialize();
+            
             lock(_sendLock)
             {
                 _client.Send(bytes);
+            }
+
+            //If Ack flag is set, sender requires acknowledgement 
+            if ( (flags & PacketFlags.Ack) == PacketFlags.Ack)
+            {
+                _pendingOperationsAwaitingAck.Add(new PendingOperation(operationId, DateTime.Now.Add(TimeSpan.FromSeconds(4))));
             }
 
             // if (_operationIdSuccessTable[lockedOperationId] == true)
@@ -131,20 +113,51 @@ public static partial class Network
             // _operationIdSuccessTable[lockedOperationId] = true;
         }
         
-        public PacketReceiveResult ReceivePacket()
+        public Packet? ReceivePacket()
         {
             IPEndPoint? ep = null;
             byte[] receivedBytes = _client.Receive(ref ep);
 
-            Packet<string>? deserialized = TryDeserializePacket<string>(receivedBytes);
-            
-            // _operationIdSuccessTable[deserialized.Value.OperationId] = false;
+            Packet receivedPacket = new Packet();
 
-            return new PacketReceiveResult()
+            if (!receivedPacket.TryLoadFromBytes(receivedBytes))
+            { 
+                return null;
+            }
+
+            if ((receivedPacket.Flags & PacketFlags.Ack) != PacketFlags.Ack) return receivedPacket;
+            
+            PendingOperation? pendingOperation =
+                _pendingOperationsAwaitingAck.Find(e => e.OperationId == receivedPacket.OperationId);
+                
+            if (pendingOperation != null)
+                _pendingOperationsAwaitingAck.Remove(pendingOperation);
+
+            // _operationIdSuccessTable[deserialized.Value.OperationId] = false;
+            return receivedPacket;
+        }
+
+        private int AcquireOperationId()
+        {
+            int lockedOperationId;
+            lock(_operationIdLock)
             {
-                Data = deserialized.Value.Data ?? null,
-                Flags = deserialized.Value.Flags
-            };
+                _operationId = _operationId++;
+                lockedOperationId = _operationId;
+            }
+            return lockedOperationId;
+        }
+
+        public class PendingOperation
+        {
+            public int OperationId { get; private set; }
+            public DateTime ExpirationTime { get; private set; }
+
+            public PendingOperation(int operationId, DateTime expirationTime)
+            {
+                OperationId = operationId;
+                ExpirationTime = expirationTime;
+            }
         }
     }
 }

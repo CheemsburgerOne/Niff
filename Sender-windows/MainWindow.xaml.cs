@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Sender_windows.Network.Payload;
 
 namespace Sender_windows;
 
@@ -79,7 +80,6 @@ public partial class MainWindow : Window
 
     private void DispatchKeyEvent(object sender, KeyEventArgs e)
     {
-        KeyEvent.KeyEvent.KeyEventDto dto = new(e);
-        
+        _networkManager.SendPacket(Network.Network.PacketFlags.KeyEvent, new Payload.KeyEventDto(e));
     }
 }

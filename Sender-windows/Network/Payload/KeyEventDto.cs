@@ -1,12 +1,12 @@
-﻿using System.Text;
-using System.Text.Json;
+﻿using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Windows.Input;
 
-namespace Sender_windows.KeyEvent;
+namespace Sender_windows.Network.Payload;
 
-public static partial class KeyEvent
+public static partial class Payload
 {
-    public struct KeyEventDto
+    public struct KeyEventDto : IPayload<KeyEventDto>
     {
         public string? Key { get; set; }
         public bool IsToggled { get; set; }

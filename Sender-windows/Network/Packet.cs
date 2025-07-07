@@ -1,16 +1,37 @@
 ﻿using System.Text.Json;
+using Sender_windows.Network.Payload;
 
 namespace Sender_windows.Network;
 
 public static partial class Network
 {
-    public struct Packet<T>(byte operationId, PacketFlags flags, T? data)
+    public class Packet
     {
-        public byte OperationId { get; private init; } = operationId;
-        public PacketFlags Flags { get; private init; } = flags;
-        public T? Data { get; private init; } = data;
+        public int OperationId { get; set; }
+        public PacketFlags Flags { get; set; }
+        public byte[]? Data { get; set; }
 
-        public byte[]? Serialize()
+        public Packet(){}
+        public Packet(int operationId, PacketFlags flags)
+        {
+            OperationId = operationId;
+            Flags = flags;
+        }
+        
+        public bool WithPayload<T>(IPayload<T> payload)
+        {
+            try
+            {
+                Data = payload.Serialize();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+        
+        public byte[] Serialize()
         {
             try
             {
@@ -18,35 +39,37 @@ public static partial class Network
             }
             catch (NotSupportedException ex)
             {
-                throw new InvalidOperationException($"Cannot serialize data into {nameof(Packet<T>)}.", ex);
+                throw new InvalidOperationException($"Cannot serialize data into {nameof(Packet)}.", ex);
             }
         }
-    }
-    
-    public static Packet<T>? TryDeserializePacket<T>(byte[] data)
-    {
-        try
+
+        public bool TryLoadFromBytes(byte[] bytes)
         {
-            Packet<object> rawPacket = JsonSerializer.Deserialize<Packet<object>>(data);
-            switch (rawPacket.Flags)
+            try
             {
-                case PacketFlags.Hello:
-                {
-                    return null;
-                }
-                case PacketFlags.Event:
-                {
-                    return null;
-                }
-                default:
-                {
-                    return null;
-                }
+                Packet? packet = JsonSerializer.Deserialize<Packet>(bytes, JsonSerializerOptions.Default);
+                OperationId = packet!.OperationId;
+                Flags = packet.Flags;
+                Data = packet.Data;
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
             }
         }
-        catch (Exception ex)
+
+        public T? GetPayloadAsType<T>()
         {
-            throw new InvalidOperationException($"Cannot deserialize data into {nameof(Packet<T>)}.", ex);
+            try
+            {
+                return JsonSerializer.Deserialize<T>(Data, JsonSerializerOptions.Default);
+            }
+            catch (NotSupportedException ex)
+            {
+                throw new InvalidOperationException($"Cannot deserialize payload as {nameof(T)}", ex);
+            }
+            
         }
     }
 }

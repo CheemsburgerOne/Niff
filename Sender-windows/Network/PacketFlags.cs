@@ -8,7 +8,7 @@ public static partial class Network
         None = 0b_0000_0000,
         Hello = 0b_0000_0001,
         Heartbeat = 0b_0000_0010,
-        Event = 0b_0000_0100,
+        KeyEvent = 0b_0000_0100,
         Custom1 = 0b_0000_1000,
         Custom2 = 0b_0001_0000,
         Custom3 = 0b_0010_0000,
