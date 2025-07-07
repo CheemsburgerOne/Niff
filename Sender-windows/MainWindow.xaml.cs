@@ -16,10 +16,9 @@ namespace Sender_windows;
 /// </summary>
 public partial class MainWindow : Window
 {
-    private Network.Network.ConnectionManager _connection;
-    private KeyStateManager _keyStateManager;
+    private Network.Network.NetworkManager _networkManager;
     
-    private readonly Progress<(int, string?, bool?)> _radioButtonsProgress;
+    // private readonly Progress<(int, string?, bool?)> _radioButtonsProgress;
     // private readonly Progress<string> _heartbeatStatusLabelProgress;
     
     private readonly string _emptyString = "";
@@ -45,7 +44,7 @@ public partial class MainWindow : Window
 
     private async void ConnectButton_OnClick(object sender, RoutedEventArgs e)
     {
-        _connection = new Network.Network.ConnectionManager();
+        _networkManager = new Network.Network.NetworkManager();
         // await _connectionManager.Connect(
         //     HostnameTextbox.Text, 
         //     int.Parse(PortTextbox.Text),
@@ -70,35 +69,17 @@ public partial class MainWindow : Window
     }
     private async void DisconnectButton_OnClick(object sender, RoutedEventArgs e)
     {
-        await _connection.Disconnect();
+        await _networkManager.Disconnect();
         HostnameTextbox.IsEnabled = true;
         PortTextbox.IsEnabled = true;
         HbPortTextbox.IsEnabled = true;
         ConnectButton.IsEnabled = true;
         DisconnectButton.IsEnabled = false;
-        _keyStateManager.Write();
     }
 
-    private void InputKeyField_OnTextChanged(object sender, TextChangedEventArgs e) => ((TextBox)sender).Text = _emptyString;
-
-    /// <summary>
-    /// Modify the desired radio button;
-    /// </summary>
-    /// <param name="index">Index / column of the radio starting from 0</param>
-    /// <param name="content"></param>
-    /// <param name="active"></param>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when accessed index does not exist</exception>
-    private void ModifyRadioButton(int index, string? content = null, bool? active = null)
-    {
-        if (index < 0 || index > _radioButtons.Count -1 ) throw new ArgumentOutOfRangeException(nameof(index));
-        if (active == false) throw new ArgumentException("Active cannot be set to false");
-
-        if (active.HasValue) _radioButtons[index].IsChecked = active.Value;
-        if (content != null) _radioButtons[index].Content = content;
-    }
-    
     private void DispatchKeyEvent(object sender, KeyEventArgs e)
     {
-        _keyStateManager.Event(e);
+        KeyEvent.KeyEvent.KeyEventDto dto = new(e);
+        
     }
 }

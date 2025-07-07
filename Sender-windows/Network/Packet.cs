@@ -6,23 +6,47 @@ public static partial class Network
 {
     public struct Packet<T>(byte operationId, PacketFlags flags, T? data)
     {
-        public byte OperationId { get; set; } = operationId;
-        public PacketFlags Flags { get; set; } = flags;
-        public T? Data { get; set; } = data;
+        public byte OperationId { get; private init; } = operationId;
+        public PacketFlags Flags { get; private init; } = flags;
+        public T? Data { get; private init; } = data;
 
-        public string? Serialize() => JsonSerializer.Serialize<Packet<T>>(this);
-
+        public byte[]? Serialize()
+        {
+            try
+            {
+                return JsonSerializer.SerializeToUtf8Bytes(this, JsonSerializerOptions.Default);
+            }
+            catch (NotSupportedException ex)
+            {
+                throw new InvalidOperationException($"Cannot serialize data into {nameof(Packet<T>)}.", ex);
+            }
+        }
     }
     
     public static Packet<T>? TryDeserializePacket<T>(byte[] data)
     {
         try
         {
-            return JsonSerializer.Deserialize<Packet<T>>(data);
+            Packet<object> rawPacket = JsonSerializer.Deserialize<Packet<object>>(data);
+            switch (rawPacket.Flags)
+            {
+                case PacketFlags.Hello:
+                {
+                    return null;
+                }
+                case PacketFlags.Event:
+                {
+                    return null;
+                }
+                default:
+                {
+                    return null;
+                }
+            }
         }
-        catch (JsonException ex)
+        catch (Exception ex)
         {
-            return null;
+            throw new InvalidOperationException($"Cannot deserialize data into {nameof(Packet<T>)}.", ex);
         }
     }
 }

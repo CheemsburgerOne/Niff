@@ -11,19 +11,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="778b2152-c3d5-434f-bcd9-a59e57b47302" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Sender-windows/Network/ConnectionManager.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sender-windows/Network/HeartbeatReportUtils.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sender-windows/Network/Packet.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sender-windows/Network/PacketFlags.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sender-windows/Network/PacketReceiveResult.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sender-windows/KeyEvent/KeyEventDto.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Niff/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Niff/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Niff.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/Niff.sln.DotSettings.user" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Sender-windows/Connection/Contants.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Sender-windows/Connection/Core.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Sender-windows/Connection/Tasks.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Sender-windows/Network/Tasks.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Sender-windows/Connection/Utils.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Sender-windows/KeyStateManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Sender-windows/KeyStateManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sender-windows/KeyEventArgsSerializedDto.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sender-windows/KeyStateManager.cs" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Sender-windows/MainWindow.xaml.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Sender-windows/MainWindow.xaml.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sender-windows/Network/ConnectionManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Sender-windows/Network/NetworkManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sender-windows/Network/Packet.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Sender-windows/Network/Packet.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,6 +62,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/1b81cb3be224213a6a73519b6e340a628d9a1fb8629c351a186a26f6376669/List.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/29b9095b6f479d183d31fb8dd32510123adcee3a46474dbed1ac25328dbb4c/Array.CoreCLR.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/2e8b8aa5d488ba9b46d9ca2a747d6895994b3519f2f231f4e3d1af87b86320/UnsafeNativeMethodsCLR.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/30248e11d7c377887cd699ede6dab62330d0bc8319d3fb90148687f092e8f172/JsonConverterOfT.WriteCore.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/338efc8c78ffd1de56cecc4647ebd34d18f958c8a0963d89a12b9ea90a4ae/ExceptionWrapper.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/36f665b21e7717ba19919a2441934630c497fe7eb3112cafcded963e97a13d72/SequenceEqual.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/3965636461bfb8d650893177bcc539addb11a176a9acc0a7f56c09b0b4e0ae/DispatcherOperation.cs" root0="FORCE_HIGHLIGHTING" />
@@ -82,24 +78,29 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/6c68e382dd7d1513c90bf1b93d0671d5a8b9279be2ade6a37ef0bd75fa3d9c/Progress.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/8c74cab2e127b0da92bb6c88c5aface244f17cd3f87aadd2887951e8581fb3df/ConcurrentQueue.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/9769f0874b89d9a174c39e6c977aef6d979daefa49c7f3c239ef268493ea12/SemaphoreSlim.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/99cef5581e39d0f7015986795665fbcf4faaf30d7a85b182b49666ccaae12/JsonTypeInfoOfT.WriteHelpers.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/9c6786cf10159cbf37b78bcdb0ae889ddfe6433b550124084e4c5ca28f16aa6/Byte.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/a2353713abb3192e8bc4c5d0dbed18809a55cbbd9a8ee67c91595d5ffa3d82f/BlockingCollection.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/acafaf2f613ae0e235677ffb1daeccacbf829d7bc635636824ff1d9dde3d7b58/KeyEventArgs.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/ae4de3ab824d7c5ae4b82a9f35f8c5171af8e2131b3cebe1e4508fefa3fb8b8f/FlagsAttribute.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/ae8fc899aa89b3ba09399aa2b32bd8ffa8e8a6661b66b976ddff28d2455c/JsonConverterOfT.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/afa162d5f3cdf5693ac5318523a010754eb3146d985697f3d74a471e2c3238/EventRoute.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/c95cc11827d6bccc42fd2e53e55a3e13855796d86341646ce43dce1407b6fdd/Dispatcher.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/cab54c7c1f8d9b3da5f7878e39faba52467f16d0899a2c4b10086cb2ef73f2b/WaitHandle.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/d0165cb640e16fb3b8fe6932c042fc2917cd7f2770ff123cf7b9d11b5bfc6/Task.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/de8a243f75215d958afa80cf80a41b4981a44efea7db93bffcdaf7bd6ba378c0/Number.Parsing.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/e358d9b136c5ffc2b4042b182613dbdc69b5580d5a35497dbf7733e54e9b86/JsonSerializer.Write.ByteArray.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/e4c59ecf2285bd73c67c23a96494bd21f2a54125734533573bc197eebaf7ac6/HwndWrapper.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/ef78b940915851960a75bd79b3393c581c2e6fcd3ebfa56b9186323ee9cfe/SynchronizationContext.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/f5c5fabf10b2751774ff136491ac41fbc0932fbd1315879ac29f2d13e2ad24b/Monitor.CoreCLR.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/f7da8522615cbe3581243dec4dc7b79c96593f642a9b75868fef377e69c958/Key.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Sender-windows/AssemblyInfo.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Sender-windows/KeyEventArgsSerializedDto.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Sender-windows/KeyStateManager.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Sender-windows/MainWindow.xaml.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Sender-windows/Network/ConnectionManager.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Sender-windows/Network/HeartbeatReportUtils.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Sender-windows/Network/NetworkManager.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Sender-windows/Network/Packet.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Sender-windows/Network/PacketFlags.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Sender-windows/Network/PacketReceiveResult.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Sender-windows/Network/Tasks.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Tester/KeyEventArgsSerializedDto.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Tester/Program.cs" root0="FORCE_HIGHLIGHTING" />
@@ -202,6 +203,7 @@
       <workItem from="1750863923494" duration="18363000" />
       <workItem from="1750917990241" duration="5964000" />
       <workItem from="1751748747165" duration="6633000" />
+      <workItem from="1751836645332" duration="2587000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <option name="closed" value="true" />
@@ -269,30 +271,10 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Sender-windows/Network/ConnectionManager.cs</url>
+          <url>file://$PROJECT_DIR$/Sender-windows/Network/NetworkManager.cs</url>
           <line>100</line>
-          <properties documentPath="C:\Users\dpasz\Desktop\Niff\Sender-windows\Connection\Core.cs" containingFunctionPresentation="Method 'Disconnect'">
-            <startOffsets>
-              <option value="4435" />
-            </startOffsets>
-            <endOffsets>
-              <option value="4436" />
-            </endOffsets>
-          </properties>
+          <properties documentPath="C:\Users\dpasz\Desktop\Niff\Sender-windows\Connection\Core.cs" containingFunctionPresentation="Method 'Disconnect'" />
           <option name="timeStamp" value="55" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Sender-windows/KeyStateManager.cs</url>
-          <line>36</line>
-          <properties documentPath="C:\Users\dpasz\Desktop\Niff\Sender-windows\KeyStateManager.cs" containingFunctionPresentation="Method 'Event'">
-            <startOffsets>
-              <option value="928" />
-            </startOffsets>
-            <endOffsets>
-              <option value="973" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="57" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>

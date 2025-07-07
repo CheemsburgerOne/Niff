@@ -14,11 +14,10 @@ public static partial class Network
     /// Class is responsible for sending keystroke events and periodic heartbeat packets on a separate port.
     /// Manager state is hinted via radio buttons.
     /// </summary>
-    public partial class ConnectionManager
+    public partial class NetworkManager
     {
         private readonly Lock _operationIdLock = new Lock();
         private byte _operationId = 0;
-        private readonly bool[] _operationIdSuccessTable = new bool[256];
         
         //Udp client
         private readonly Lock _sendLock = new Lock();
@@ -28,10 +27,10 @@ public static partial class Network
         private UdpClient _client;
         
         //Sending tasks
-        private ConfiguredTaskAwaitable _heartbeatTask;
-        private readonly CancellationTokenSource _heartbeatCancellationTokenSource = new CancellationTokenSource();
-        private Task _sendTask;
-        private readonly CancellationTokenSource _sendCancellationTokenSource = new CancellationTokenSource();
+        // private ConfiguredTaskAwaitable _heartbeatTask;
+        // private readonly CancellationTokenSource _heartbeatCancellationTokenSource = new CancellationTokenSource();
+        // private Task _sendTask;
+        // private readonly CancellationTokenSource _sendCancellationTokenSource = new CancellationTokenSource();
         
         public async Task<bool> TryConnect(string hostname, int port, int hbPort)
         {
@@ -119,18 +118,17 @@ public static partial class Network
             }
             
             Packet<T> packet = new Packet<T>(lockedOperationId, flags, data);
-            byte[] bytes = Encoding.UTF8.GetBytes(packet.Serialize() ?? throw new InvalidOperationException());
-            
+            byte[]? bytes = packet.Serialize();
             lock(_sendLock)
             {
                 _client.Send(bytes);
             }
 
-            if (_operationIdSuccessTable[lockedOperationId] == true)
-            {
-                throw new Exception($"Operation has not been acknowledged");
-            }
-            _operationIdSuccessTable[lockedOperationId] = true;
+            // if (_operationIdSuccessTable[lockedOperationId] == true)
+            // {
+            //     throw new Exception($"Operation has not been acknowledged");
+            // }
+            // _operationIdSuccessTable[lockedOperationId] = true;
         }
         
         public PacketReceiveResult ReceivePacket()
@@ -140,7 +138,7 @@ public static partial class Network
 
             Packet<string>? deserialized = TryDeserializePacket<string>(receivedBytes);
             
-            _operationIdSuccessTable[deserialized.Value.OperationId] = false;
+            // _operationIdSuccessTable[deserialized.Value.OperationId] = false;
 
             return new PacketReceiveResult()
             {
