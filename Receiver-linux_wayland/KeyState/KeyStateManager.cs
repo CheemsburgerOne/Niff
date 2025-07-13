@@ -1,11 +1,12 @@
 ﻿using System.Runtime.Serialization;
 
-namespace Receiver_linux_wayland.Core;
+namespace Receiver_linux_wayland.KeyState;
 
-public static partial class Core
+public static partial class KeyState
 {
     public class KeyStateManager
     {
+        
         private Dictionary<int, Key> Keys { get; } = new Dictionary<int, Key>();
         /// <summary>
         /// Refer to KeyType.Pressed definition
@@ -16,7 +17,7 @@ public static partial class Core
         /// </summary>
         private LinkedList<Key> Toggled { get; } = new LinkedList<Key>();
         
-        public string? Event(KeyEventDto dto)
+        public string? Event(Payload.Payload.KeyEventDto dto)
         {
             //If WpfIdentifier does not exist return null string 
             if (!Keys.TryGetValue(dto.WpfIdentifier, out Key? key)) return null;
@@ -77,7 +78,7 @@ public static partial class Core
                 }
                 catch (ArgumentException e)
                 {
-                    throw new ArgumentException($"Key has already been loaded.", e);
+                    throw new ArgumentException($"Key has already been loaded.");
                 }
                 catch (SerializationException e)
                 {

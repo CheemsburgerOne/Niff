@@ -1,11 +1,9 @@
-﻿using System.Data;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Runtime.Serialization;
-using System.Security;
 
-namespace Receiver_linux_wayland.Core;
+namespace Receiver_linux_wayland.KeyState;
 
-public static partial class Core
+public static partial class KeyState
 {
     public class Key
     {

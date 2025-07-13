@@ -1,4 +1,4 @@
-﻿namespace Receiver_linux_wayland.Core.Network;
+﻿namespace Receiver_linux_wayland.Network;
 
 [Flags]
 public enum PacketFlags : byte
@@ -6,7 +6,7 @@ public enum PacketFlags : byte
     None = 0b_0000_0000,
     Hello = 0b_0000_0001,
     Heartbeat = 0b_0000_0010,
-    Event = 0b_0000_0100,
+    KeyEvent = 0b_0000_0100,
     Custom1 = 0b_0000_1000,
     Custom2 = 0b_0001_0000,
     Custom3 = 0b_0010_0000,
