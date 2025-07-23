@@ -8,7 +8,7 @@ public interface IPayload<T>
     {
         try
         {
-            return JsonSerializer.SerializeToUtf8Bytes(this, JsonSerializerOptions.Default);
+            return JsonSerializer.SerializeToUtf8Bytes((T)this, JsonSerializerOptions.Default);
         }
         catch (NotSupportedException ex)
         {

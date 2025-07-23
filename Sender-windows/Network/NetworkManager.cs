@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography;
 using System.Text;
 using Sender_windows.Network.Payload;
 
@@ -17,147 +18,91 @@ public static partial class Network
     /// </summary>
     public partial class NetworkManager
     {
-        private readonly Lock _operationIdLock = new Lock();
-        private int _operationId = 0;
-        private readonly List<PendingOperation> _pendingOperationsAwaitingAck = new List<PendingOperation>(10);
-        
-        //Udp client
-        private readonly Lock _sendLock = new Lock();
+        private Cryptography.Cryptography.RsaCng.RsaCngCryptoDevice? _localCngKeyCryptoDevice = new Cryptography.Cryptography.RsaCng.RsaCngCryptoDevice("Niff");
 
-        public UdpClient Client => _client;
-
-        private UdpClient _client;
+        private Cryptography.Cryptography.Rsa.RsaCryptoDevice? _remoteKeyCryptoDevice;
+        private bool _isEncryptionEstablished = false;
+        private byte _operationId = 0;
+        private TcpClient? _client;
+        public bool Connected => _client?.Connected ?? false;
+        private byte[] _buffer = new byte[256];
         
-        public async Task<bool> TryConnect(string hostname, int port, int hbPort)
+        
+        public async Task<bool> TryConnect(string hostname, int port)
         {
             //Setup client parameters and heartbeat port
-            _client = new UdpClient(hbPort);
-            _client.MulticastLoopback = false;
-            
+            hostname = "192.168.1.27";
+            port = 12015;
             try
             {
-                _client.Connect(hostname, port);
+                _client = new TcpClient();
+                await _client.ConnectAsync(hostname, port);
             }
             catch (Exception ex)
             {
                 return false;
             }
+
             return true;
         }
         
         public async Task Disconnect()
         {
-            //Stop generating heartbeats and receiving OKs
-            // await _heartbeatCancellationTokenSource.CancelAsync().ConfigureAwait(false);
-            
-            //Send bye to the receiver and wait 0,25 sec for response
-            //
-            // await Task.Delay(250).ConfigureAwait(false);
-            
-            //Run socket buffer to the end for and check for Bye acknowledge
-            // while (true)
-            // {
-            //     //No ack received
-            //     if (_client.Available == 0)
-            //     {
-            //         _heartbeatLabelProgress.Report("Disconnected without remote acknowledgement");
-            //         break;
-            //     }
-            //     //Empty the buffer and look for BYEack
-            //     var result = await _client.ReceiveAsync().ConfigureAwait(false);
-            //     if (ByeAcknowledgeReferenceBytes.SequenceEqual(result.Buffer))
-            //     {
-            //         _heartbeatLabelProgress.Report("Disconnected");
-            //         break;
-            //     }
-            // }
-            //
-            // _radioButtonsProgress.Report((4, null, true));
-            //
-            // //Mark sendQueue as done and terminate send task
-            // Queue.CompleteAdding();
-            // await _sendCancellationTokenSource.CancelAsync().ConfigureAwait(false);
-            //
-            // _heartbeatCancellationTokenSource?.Dispose();
-            // _sendCancellationTokenSource?.Dispose();
-            // _client.Close();
-            
+            if (_client!.Connected)
+            {
+                await _client.GetStream().FlushAsync();
+                _client.Close();
+            }
         }
-        
-        public void SendPacket<T>(PacketFlags flags, IPayload<T> payload)
+
+        public bool SendPacket<T>(PacketFlags flags, IPayload<T> payload)
         {
-            int operationId = AcquireOperationId();
-            Packet packet = new Packet(operationId, flags);
+            byte operationId = AcquireOperationId();
+            
+            Packet packet = new Packet(AcquireOperationId(), flags);
             if (!packet.WithPayload(payload))
             {
                 //If loading the payload has failed, flag this operationId as no action
                 packet = new Packet(operationId, PacketFlags.None);
             }
+            
             byte[]? bytes = packet.Serialize();
             
-            lock(_sendLock)
+            if (_isEncryptionEstablished) bytes = _remoteKeyCryptoDevice!.Encrypt(bytes);
+            
+            try
             {
-                _client.Send(bytes);
+                _client!.GetStream().WriteAsync(bytes, 0, bytes.Length).Wait();
+                return true;
             }
-
-            //If Ack flag is set, sender requires acknowledgement 
-            if ( (flags & PacketFlags.Ack) == PacketFlags.Ack)
+            catch (Exception ex)
             {
-                _pendingOperationsAwaitingAck.Add(new PendingOperation(operationId, DateTime.Now.Add(TimeSpan.FromSeconds(4))));
+                return false;
             }
-
-            // if (_operationIdSuccessTable[lockedOperationId] == true)
-            // {
-            //     throw new Exception($"Operation has not been acknowledged");
-            // }
-            // _operationIdSuccessTable[lockedOperationId] = true;
         }
-        
-        public Packet? ReceivePacket()
-        {
-            IPEndPoint? ep = null;
-            byte[] receivedBytes = _client.Receive(ref ep);
 
+    
+        
+        public async Task<Packet?> ReceivePacket()
+        {
+            Memory<byte> memorySlice = _buffer.AsMemory(0, _client!.Available);
+            int readBytes = await _client.GetStream().ReadAsync(memorySlice);
+            
             Packet receivedPacket = new Packet();
 
-            if (!receivedPacket.TryLoadFromBytes(receivedBytes))
-            { 
-                return null;
-            }
-
-            if ((receivedPacket.Flags & PacketFlags.Ack) != PacketFlags.Ack) return receivedPacket;
+            if (!_isEncryptionEstablished)
+                return !receivedPacket.TryLoadFromBytes(memorySlice.Span) ? null : receivedPacket;
             
-            PendingOperation? pendingOperation =
-                _pendingOperationsAwaitingAck.Find(e => e.OperationId == receivedPacket.OperationId);
-                
-            if (pendingOperation != null)
-                _pendingOperationsAwaitingAck.Remove(pendingOperation);
+            Span<byte> decryptedbytes = new Span<byte>(_localCngKeyCryptoDevice?.Decrypt(memorySlice.Span));
+            return !receivedPacket.TryLoadFromBytes(decryptedbytes) ? null : receivedPacket;
 
-            // _operationIdSuccessTable[deserialized.Value.OperationId] = false;
-            return receivedPacket;
         }
 
-        private int AcquireOperationId()
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private byte AcquireOperationId()
         {
-            int lockedOperationId;
-            lock(_operationIdLock)
-            {
-                _operationId = _operationId++;
-                lockedOperationId = _operationId;
-            }
-            return lockedOperationId;
-        }
-
-        public class PendingOperation
-        {
-            public int OperationId { get; private set; }
-            public DateTime ExpirationTime { get; private set; }
-
-            public PendingOperation(int operationId, DateTime expirationTime)
-            {
-                OperationId = operationId;
-                ExpirationTime = expirationTime;
-            }
+            _operationId = _operationId++;
+            return _operationId;
         }
     }
 }

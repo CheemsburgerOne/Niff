@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using System.Text.Json.Serialization;
 using Sender_windows.Network.Payload;
 
 namespace Sender_windows.Network;
@@ -7,12 +8,15 @@ public static partial class Network
 {
     public class Packet
     {
-        public int OperationId { get; set; }
+        [JsonPropertyName("OI")]
+        public byte OperationId { get; set; }
+        [JsonPropertyName("F")]
         public PacketFlags Flags { get; set; }
+        [JsonPropertyName("D")]
         public byte[]? Data { get; set; }
 
         public Packet(){}
-        public Packet(int operationId, PacketFlags flags)
+        public Packet(byte operationId, PacketFlags flags)
         {
             OperationId = operationId;
             Flags = flags;
@@ -43,7 +47,7 @@ public static partial class Network
             }
         }
 
-        public bool TryLoadFromBytes(byte[] bytes)
+        public bool TryLoadFromBytes(Span<byte> bytes)
         {
             try
             {

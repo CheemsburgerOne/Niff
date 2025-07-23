@@ -5,66 +5,34 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Sender_windows"
         mc:Ignorable="d"
-        Title="Niff client" Height="325" Width="800"
+        Title="Niff" Height="325" Width="800"
+        Padding="15,15,15,15"
         KeyUp="DispatchKeyEvent"
         KeyDown="DispatchKeyEvent"
         >
     <Grid Margin="10">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>   <!-- Wiersz na Hostname -->
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>   <!-- Wiersz na Port -->
-            <RowDefinition Height="Auto"/>   <!-- Wiersz na radio buttons -->
-            <RowDefinition Height="Auto"/>   <!-- Wiersz na przyciski -->
-            <RowDefinition Height="Auto"/>   <!-- Wiersz z tekstem klawiszy -->
+            <RowDefinition Height="Auto"/> 
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/> <!-- Kolumna etykiet -->
-            <ColumnDefinition Width="*"/>    <!-- Kolumna pola tekstowego -->
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        
-        <!-- Hostname -->
-        <Label Name="HostnameLabel" Grid.Row="0" Grid.Column="0" Content="Hostname:" VerticalAlignment="Center" Margin="0,0,5,0"/>
-        <TextBox x:Name="HostnameTextbox" x:FieldModifier="public" Grid.Row="0" Grid.Column="1" Height="25"/>
-        
-        <!-- Port -->
-        <Label Name="PortLabel" Grid.Row="1" Grid.Column="0" Content="Port:" VerticalAlignment="Center" Margin="0,5,5,0"/>
-        <TextBox x:Name="PortTextbox" x:FieldModifier="public" Grid.Row="1" Grid.Column="1" Height="25" Margin="0,5,0,0"/>
-        
-        <!-- Port -->
-        <Label Name="HbPortLabel" Grid.Row="2" Grid.Column="0" Content="Heartbeat Port:" VerticalAlignment="Center" Margin="0,5,5,0"/>
-        <TextBox x:Name="HbPortTextbox" x:FieldModifier="public" Grid.Row="2" Grid.Column="1" Height="25" Margin="0,5,0,0"/>
-        
-        <!-- Panel z radio buttons -->
-        <StackPanel Grid.Row="3" Grid.ColumnSpan="2" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
-            <RadioButton x:Name="S1Radio" x:FieldModifier="public" GroupName="ConnectionStateGroup"  Content="Waiting" Margin="5,0" IsChecked="True" IsEnabled="False"/>
-            <TextBlock Text="→" Margin="5,0" VerticalAlignment="Center"/>
-            <RadioButton x:Name="S2Radio" x:FieldModifier="public" GroupName="ConnectionStateGroup" Content="Connecting" Margin="5,0" IsEnabled="False"/>
-            <TextBlock Text="→" Margin="5,0" VerticalAlignment="Center"/>
-            <RadioButton x:Name="S3Radio" x:FieldModifier="public" GroupName="ConnectionStateGroup" Content="Timeout / Refused" Margin="5,0" IsEnabled="False"/>
-            <TextBlock Text="→" Margin="5,0" VerticalAlignment="Center"/>
-            <RadioButton x:Name="S4Radio" x:FieldModifier="public" GroupName="ConnectionStateGroup" Content="Connected" Margin="5,0" IsEnabled="False"/>
-            <TextBlock Text="→" Margin="5,0" VerticalAlignment="Center"/>
-            <RadioButton x:Name="S5Radio" x:FieldModifier="public" GroupName="ConnectionStateGroup" Content="Disconnected" Margin="5,0" IsEnabled="False"/>
-        </StackPanel>
-        
-        <StackPanel Grid.Row="4" Grid.ColumnSpan="2" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
-            <Label x:Name="HeartbeatStatusLabel" Content="Not connected" ></Label>
-        </StackPanel>
-        
-        <!-- Panel z przyciskami -->
-        <StackPanel Grid.Row="5" Grid.ColumnSpan="2" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
-            <Button Name="DisconnectButton" Content="Disconnect" Width="250" Margin="5,0" IsEnabled="False" Click="DisconnectButton_OnClick"/>
-            <Button Name="ConnectButton" Content="Connect" Width="250" Margin="5,0" Click="ConnectButton_OnClick" />
-        </StackPanel>
-        <StackPanel Margin="15px" Grid.Row="6" Grid.RowSpan="2" Grid.ColumnSpan="2" Grid.Column="0">
-            <Label x:Name="InputKeyField" Height="100" Content="Enter keys here" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" ></Label>
-        </StackPanel>
+            
+        <Label Name="HostnameLabel" Content="Hostname:" Grid.Row="0" Grid.Column="0" Margin="0,0,0,13"/>
+        <TextBox x:Name="HostnameTextbox" x:FieldModifier="public" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Margin="15,0,15,13"/>
+        <Button Name="ConnectButton" Content="Connect" Grid.Row="0" Grid.Column="3" Click="ConnectButton_OnClick"  Margin="0,0,0,13"/>
+        <Label Name="PortLabel" Content="Port:" Grid.Row="1" Grid.Column="0" Margin="0,0,0,13"/>
+        <TextBox x:Name="PortTextbox" x:FieldModifier="public" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Margin="15,0,15,13"/>
+        <Button Name="DisconnectButton" Content="Disconnected" Grid.Row="1" Grid.Column="3"  IsEnabled="False" Click="DisconnectButton_OnClick" Margin="0,0,0,13"/>
+        <Label Name="PublicKeyLabel" Content="Port:" Grid.Row="2" Grid.Column="0" Margin="0,0,0,0"/>
+        <Label x:Name="PublicKeyContent" x:FieldModifier="public" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" BorderBrush="DarkGray" BorderThickness="1" Margin="15,0,15,0"/>
+        <Button Name="PublicKeyOpenFileDialogButton" Content="Disconnected" Grid.Row="2" Grid.Column="3"  IsEnabled="False" Click="OpenLoadRsaPublicKeyPemFileDialog"/>
+        <Label x:Name="InputKeyField" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" Margin="0,15,0,0" Content="Key capture zone" BorderThickness="1px" BorderBrush="Black" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" ></Label>
     </Grid>
-
 </Window>

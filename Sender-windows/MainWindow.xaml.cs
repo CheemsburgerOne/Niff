@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.Win32;
 using Sender_windows.Network.Payload;
 
 namespace Sender_windows;
@@ -17,7 +18,8 @@ namespace Sender_windows;
 /// </summary>
 public partial class MainWindow : Window
 {
-    private Network.Network.NetworkManager _networkManager;
+    private Network.Network.NetworkManager? _networkManager = null;
+    private KeyState.KeyState.KeyStateManager _keyStateManager = new KeyState.KeyState.KeyStateManager();
     
     // private readonly Progress<(int, string?, bool?)> _radioButtonsProgress;
     // private readonly Progress<string> _heartbeatStatusLabelProgress;
@@ -29,16 +31,6 @@ public partial class MainWindow : Window
     {
         // this._keyPressedLabelProgress = keyPressedLabelProgress;
         InitializeComponent();
-        
-        _radioButtons =
-        [
-            S1Radio,
-            S2Radio,
-            S3Radio,
-            S4Radio,
-            S5Radio
-        ];
-
         // _radioButtonsProgress = new Progress<(int, string?, bool?)>(tuple => ModifyRadioButton(tuple.Item1, tuple.Item2, tuple.Item3));
         // _heartbeatStatusLabelProgress = new Progress<string>(content => HeartbeatStatusLabel.Content = content);
     }
@@ -46,40 +38,47 @@ public partial class MainWindow : Window
     private async void ConnectButton_OnClick(object sender, RoutedEventArgs e)
     {
         _networkManager = new Network.Network.NetworkManager();
-        // await _connectionManager.Connect(
-        //     HostnameTextbox.Text, 
-        //     int.Parse(PortTextbox.Text),
-        //     int.Parse(HbPortTextbox.Text));
-        HostnameTextbox.IsEnabled = false;
-        PortTextbox.IsEnabled = false;
-        HbPortTextbox.IsEnabled = false;
-        ConnectButton.IsEnabled = false;
-
-        // bool success = await _connection.Connect(HostnameTextbox.Text, 0, 0);
-        // _keyStateManager = new KeyStateManager(_connection.Send);
-        //If connecting failed revert states
-        // if (!success)
-        // { 
-        //     HostnameTextbox.IsEnabled = true;
-        //     PortTextbox.IsEnabled = true;
-        //     HbPortTextbox.IsEnabled = true;
-        //     ConnectButton.IsEnabled = true;
-        // }
-        
-        DisconnectButton.IsEnabled = true;
+        var success = await _networkManager.TryConnect("1",2);
+        if (success) SetControlsUserConnected();
     }
     private async void DisconnectButton_OnClick(object sender, RoutedEventArgs e)
     {
-        await _networkManager.Disconnect();
+        await _networkManager!.Disconnect();
+        SetControlsUserNotConnected();
+    }
+
+    private void SetControlsUserConnected()
+    {
+        DisconnectButton.IsEnabled = true;
+        HostnameTextbox.IsEnabled = false;
+        PortTextbox.IsEnabled = false;
+        ConnectButton.IsEnabled = false;
+    }
+
+
+    private void SetControlsUserNotConnected()
+    {
         HostnameTextbox.IsEnabled = true;
         PortTextbox.IsEnabled = true;
-        HbPortTextbox.IsEnabled = true;
         ConnectButton.IsEnabled = true;
         DisconnectButton.IsEnabled = false;
     }
-
     private void DispatchKeyEvent(object sender, KeyEventArgs e)
     {
-        _networkManager.SendPacket(Network.Network.PacketFlags.KeyEvent, new Payload.KeyEventDto(e));
+        if (_networkManager == null || !_networkManager.Connected) return;
+        if (_keyStateManager.IsModifierKey(e.Key) || e.IsUp) return;
+        Payload.KeyEventDto? dto = _keyStateManager.CreateKeyEventPayload(e);
+        _networkManager.SendPacket<Payload.KeyEventDto>(Network.Network.PacketFlags.KeyEvent, dto);
+    }
+
+    private void OpenLoadRsaPublicKeyPemFileDialog(object sender, RoutedEventArgs e)
+    {
+        OpenFileDialog openFileDialog = new OpenFileDialog();
+        openFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
+        if (openFileDialog.ShowDialog() == true)
+        {
+            string filePath = openFileDialog.FileName;
+            MessageBox.Show($"Selected file: {filePath}");
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
 using System.Windows.Input;
 
 namespace Sender_windows.Network.Payload;
@@ -8,15 +9,15 @@ public static partial class Payload
 {
     public struct KeyEventDto : IPayload<KeyEventDto>
     {
-        public string? Key { get; set; }
-        public bool IsToggled { get; set; }
-        public bool IsRepeat { get; set; }
+        [JsonPropertyName("pID")]
+        public int WpfId { get; }
+        [JsonPropertyName("pM")]
+        public bool[] Modifiers { get; }
 
-        public KeyEventDto(KeyEventArgs keyEvent)
+        public KeyEventDto(int wpfId, bool[] modifiers)
         {
-            Key = keyEvent.Key.ToString();
-            IsToggled = keyEvent.IsToggled;
-            IsRepeat = keyEvent.IsRepeat;
+            WpfId = wpfId;
+            Modifiers = modifiers;
         }
         
         public KeyEventDto(){}

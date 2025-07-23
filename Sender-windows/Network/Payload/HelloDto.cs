@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Sender_windows.Network.Payload;
 
@@ -6,14 +7,14 @@ public static partial class Payload
 {
     public struct HelloDto : IPayload<HelloDto>
     {
-        public int HeartbeatPort { get; set; }
+        [JsonPropertyName("PRK")]
+        public string? PublicRsaKey { get; set; }
 
-        public HelloDto(int heartbeatPort)
+        public HelloDto(string publicRsaKey)
         {
-            HeartbeatPort = heartbeatPort;
+            PublicRsaKey = publicRsaKey;
         }
 
-        public HelloDto() { }
-
+        public HelloDto(){}
     }
 }
