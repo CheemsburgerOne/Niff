@@ -1,5 +1,6 @@
 ﻿using CliWrap;
 using Receiver_linux_wayland.Network;
+using Receiver_linux_wayland.Network.Payload;
 
 namespace Receiver_linux_wayland.Core;
 
@@ -7,19 +8,15 @@ public class CoreService : BackgroundService
 {
 
     private readonly Receiver_linux_wayland.Network.Network.NetworkManager _networkManager;
-    private readonly KeyState.KeyState.KeyStateManager _keyStateManager = new();
+    private readonly KeyState.KeyState.KeyStateManager _keyStateManager = new("ydotool");
     private readonly ILogger<CoreService> _systemdlogger;
-    private Command _defaultCommand;
 
 
     public CoreService(ILogger<CoreService> logger)
     {
         _systemdlogger = logger;
         _networkManager = new Receiver_linux_wayland.Network.Network.NetworkManager(logger);
-
-        _defaultCommand = CliWrap.Cli.Wrap("ydotoold");
-
-
+        _keyStateManager.LoadFromFile("as");
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -31,18 +28,27 @@ public class CoreService : BackgroundService
     {
         while (!stoppingToken.IsCancellationRequested)
         {
-            Receiver_linux_wayland.Network.Network.Packet? received = await _networkManager.ReceivePacketAsync(stoppingToken);
-            received.Flags &= ~PacketFlags.Ack;
-            if (received.Flags == PacketFlags.KeyEvent)
+            if (!_networkManager.Connected)
             {
-                Payload.Payload.KeyEventDto? keyEventDto = received.GetPayloadAsType<Payload.Payload.KeyEventDto>();
-                string keyboardCommand = _keyStateManager.Event(keyEventDto.Value);
-                var result = _defaultCommand.WithArguments(c =>c.Add(keyboardCommand));
-                await result.ExecuteAsync(stoppingToken);
+                await _networkManager.AwaitNewConnection();
             }
-        }
 
-    }   
+            try
+            {
+                Receiver_linux_wayland.Network.Network.Packet? received =
+                    await _networkManager.ReceivePacketAsync(stoppingToken);
+                
+                Payload.KeyEventDto? dto = received.GetPayloadAsType<Payload.KeyEventDto>();
+                
+                await _keyStateManager.ProcessEvent(dto.Value);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+
+        }
+    }
     
     
 }

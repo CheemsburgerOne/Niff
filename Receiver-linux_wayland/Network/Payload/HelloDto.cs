@@ -1,4 +1,4 @@
-﻿namespace Receiver_linux_wayland.Payload;
+﻿namespace Receiver_linux_wayland.Network.Payload;
 
 public static partial class Payload
 {

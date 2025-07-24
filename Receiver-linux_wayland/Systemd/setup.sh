@@ -23,6 +23,16 @@ else
     echo "/var/ydotoold folder already exists!"
 fi
 
+#Check if folder for configuration exists and create it if necessary
+if [ ! -d /etc/niff/remote ]; then
+    mkdir -p /etc/niff/remote > /dev/null
+    chown root:root /etc/niff/remote
+    chmod 770 /etc/niff/remote
+    chmod g+s /etc/niff/remotel;
+else
+    echo "/etc/niff folder already exists!"
+fi
+
 if ! grep --quiet 'YDOTOOL_SOCKET=' /etc/enviroment; then
     echo "export YDOTOOL_SOCKET=/var/ydotoold/ydotoold.sock" | tee -a /etc/environment > /dev/null
 else

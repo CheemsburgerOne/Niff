@@ -7,18 +7,15 @@ public static partial class KeyState
 {
     public class Key
     {
-        public KeyType Type { get; private set; }
-        public string WpfName { get; private set; } = null!;
+        public string WpfName { get; private set; }
         public int WpfIdentifier { get; private set; }
-        //public string YdtName { get; private set; } 
         public int YdtIdentifier { get; private set; }
-        public bool IsActive { get; set; }
         
         public Key(string definition)
         {
             try
             {
-                LoadFromString(definition);
+                LoadFromDefinition(definition);
             }
             catch (SerializationException ex)
             {
@@ -26,17 +23,16 @@ public static partial class KeyState
             }
         }
 
-        private void LoadFromString(string definition)
+        private void LoadFromDefinition(string definition)
         {
             string[] parts = definition.Split(' ');
             
             Type myself = typeof(Key);
-            if (parts.Length != myself.GetFields(BindingFlags.Default).Length-1) 
-                throw new SerializationException("Key definition does not have all necessary fields");
+            if (parts.Length -1 != myself.GetProperties().Length) 
+                throw new SerializationException($"Key definition params is not {myself.GetProperties().Length} ");
 
             try
             {
-                Type = Enum.Parse<KeyType>(parts[0]);
                 WpfName = parts[1];
                 WpfIdentifier = int.Parse(parts[2]);
                 YdtIdentifier = int.Parse(parts[3]);

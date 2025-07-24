@@ -1,13 +1,15 @@
-﻿namespace Receiver_linux_wayland.Payload;
+﻿using System.Text.Json.Serialization;
+
+namespace Receiver_linux_wayland.Network.Payload;
 
 public static partial class Payload
 {
     public struct KeyEventDto : IPayload<KeyEventDto>
     {
-        public int WpfIdentifier { get; set; }
-        public bool IsActive { get; set; }
-        public bool IsRepeat { get; set; }
-        
+        [JsonPropertyName("pID")]
+        public int WpfId { get; set; }
+        [JsonPropertyName("pM")]
+        public bool[]? Modifiers { get; set; }
         public KeyEventDto(){}
 
         public byte[] Serialize()

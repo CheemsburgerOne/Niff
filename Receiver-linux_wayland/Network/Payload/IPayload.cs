@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace Receiver_linux_wayland.Payload;
+namespace Receiver_linux_wayland.Network.Payload;
 
 public interface IPayload<T>
 {
@@ -8,7 +8,7 @@ public interface IPayload<T>
     {
         try
         {
-            return JsonSerializer.SerializeToUtf8Bytes(this, JsonSerializerOptions.Default);
+            return JsonSerializer.SerializeToUtf8Bytes((T)this, JsonSerializerOptions.Default);
         }
         catch (NotSupportedException ex)
         {

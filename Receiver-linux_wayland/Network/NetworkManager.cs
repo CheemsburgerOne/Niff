@@ -3,22 +3,49 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text.Json;
 using Receiver_linux_wayland.Core;
-using Receiver_linux_wayland.Payload;
+using Receiver_linux_wayland.Network.Payload;
 
 namespace Receiver_linux_wayland.Network;
 
 public static partial class Network
 {
-    public class NetworkManager
+    public partial class NetworkManager
     {
-        private UdpClient _client;
+        private Cryptography.Cryptography.RsaKeyStorage _rsaKeyStorage =
+            new Cryptography.Cryptography.RsaKeyStorage("/tmp/NIff");
+        
+        private Cryptography.Cryptography.Rsa.RsaCryptoDevice _localKeyCryptoDevice;
+        private Cryptography.Cryptography.Rsa.RsaCryptoDevice _remoteKeyCryptoDevice;
+        
+        private TcpListener _listener;
+        private TcpClient? _client;
+        byte[] _buffer = new byte[256];
+        
         private ILogger<CoreService>? _logger = null;
+        public bool Connected => _client is { Connected: true };
         public NetworkManager(ILogger<CoreService> logger, int listenPort = 12015)
         {
             _logger = logger;
-            _client = new UdpClient(listenPort);
+            InitializeLocalRsaKey();
+            InitializeTcpListener(listenPort);
         }
-        public void SendPacket<T>(int operationId, PacketFlags flags, IPayload<T>? payload = null)
+
+        private void InitializeLocalRsaKey()
+        {
+            Cryptography.Cryptography.Rsa.RsaCryptoDevice? rsaCryptoDevice = 
+                _rsaKeyStorage.LoadLocalKeyFromStorage() ?? new Cryptography.Cryptography.Rsa.RsaCryptoDevice(2048);
+
+            _localKeyCryptoDevice  = rsaCryptoDevice;
+        }
+
+        private void InitializeTcpListener(int listenPort)
+        {
+            _listener = new TcpListener(listenPort);
+            _listener.Start();
+        }
+
+        public async Task AwaitNewConnection() => _client = await _listener.AcceptTcpClientAsync();
+        public void SendPacket<T>(byte operationId, PacketFlags flags, IPayload<T>? payload = null)
         {
             Packet packet = new Packet(operationId, flags);
             if (payload != null)
@@ -33,7 +60,7 @@ public static partial class Network
 
             try
             {
-                _client.Send(packet.Serialize());
+                // _client.Send(packet.Serialize());
             }
             catch (Exception e)
             {
@@ -48,12 +75,12 @@ public static partial class Network
         
         public async Task<Packet?> ReceivePacketAsync(CancellationToken cancellationToken)
         {
-            IPEndPoint? ep = null;
-            byte[] receivedBytes = (await _client.ReceiveAsync(cancellationToken)).Buffer;
+            Memory<byte> receivedBYtes;
+            int readBytes = await _client.GetStream().ReadAsync(receivedBYtes = _buffer.AsMemory(0, 256), cancellationToken);
 
             Packet receivedPacket = new Packet();
 
-            return !receivedPacket.TryLoadFromBytes(receivedBytes) ? null : receivedPacket;
+            return !receivedPacket.TryLoadFromBytes(receivedBYtes.Slice(0, readBytes).Span) ? null : receivedPacket;
         }
     }
 }

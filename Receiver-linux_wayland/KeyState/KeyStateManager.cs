@@ -1,4 +1,6 @@
 ﻿using System.Runtime.Serialization;
+using CliWrap;
+using Receiver_linux_wayland.Network.Payload;
 
 namespace Receiver_linux_wayland.KeyState;
 
@@ -6,67 +8,59 @@ public static partial class KeyState
 {
     public class KeyStateManager
     {
+        private Command _keySequenceCommand;
+        private readonly int _modifierKeyYdtReferenceCount = 4;
         
         private Dictionary<int, Key> Keys { get; } = new Dictionary<int, Key>();
-        /// <summary>
-        /// Refer to KeyType.Pressed definition
-        /// </summary>
-        private LinkedList<Key> Pressed { get; } = new LinkedList<Key>();
-        /// <summary>
-        /// Refer to KeyType.Toggled definition
-        /// </summary>
-        private LinkedList<Key> Toggled { get; } = new LinkedList<Key>();
-        
-        public string? Event(Payload.Payload.KeyEventDto dto)
-        {
-            //If WpfIdentifier does not exist return null string 
-            if (!Keys.TryGetValue(dto.WpfIdentifier, out Key? key)) return null;
-            
-            switch (key.Type)
-            {
-                case KeyType.Single:
-                    return SingleCommand(key.YdtIdentifier);
-                
-                case KeyType.Pressed:
-                    switch (dto.IsActive)
-                    {
-                        //There might be inconsistencies with key events so we make sure we do not add duplicate
-                        case true when Pressed.All(e => e.WpfIdentifier != dto.WpfIdentifier):
-                            Pressed.AddLast(key);
-                            return PressedDownCommand(key.YdtIdentifier);
-                        //Make sure we do not delete key that was not present in the list
-                        case false when Pressed.Any(e => e.WpfIdentifier == dto.WpfIdentifier):
-                            Pressed.Remove(key);
-                            return PressedUpCommand(key.YdtIdentifier);
-                        default:
-                            return null;
-                    }
-                //In case of toggles such as CapsLock and NumLock it is crucial to keep states synchronized
-                case KeyType.Toggled:
-                    switch (dto.IsActive)
-                    {
-                        //There might be inconsistencies with key events so we make sure we do not add duplicate
-                        case true when Toggled.All(e => e.WpfIdentifier != dto.WpfIdentifier):
-                            Toggled.AddLast(key);
-                            return SingleCommand(key.YdtIdentifier);
-                        //Make sure we do not delete key that was not present in the list
-                        case false when Toggled.Any(e => e.WpfIdentifier == dto.WpfIdentifier):
-                            Toggled.Remove(key);
-                            return SingleCommand(key.YdtIdentifier);
-                        default:
-                            return null;
-                    }
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }   
+
+       public KeyStateManager(string executable)
+       {
+           _keySequenceCommand = CliWrap.Cli.Wrap(executable);
+       } 
+       public async Task<bool> ProcessEvent(Payload.KeyEventDto dto) 
+       {
+           if (dto.Modifiers == null) return false;
+           List<string> command =  new List<string>();
+           command.Add("key");
+           BeginModifiers(command, dto.Modifiers);
+           
+           if (Keys.TryGetValue(dto.WpfId, out var key)) command.AddRange([$"{key.YdtIdentifier}:1",$"{key.YdtIdentifier}:0"]);
+           
+           EndModifiers(command, dto.Modifiers);
+
+           foreach (var item in command)
+           {
+               Console.Write(item);
+               Console.Write(' ');
+           }
+           Console.Write(Environment.NewLine);
+           
+           await _keySequenceCommand.WithArguments(a => a.Add(command)).ExecuteAsync();
+           
+           return true;
+           
+           void BeginModifiers(List<string> arguments, bool[] modifiers ) 
+           { 
+               if (modifiers[0]) arguments.AddRange([$"{(int)Modifiers.Capslock}:1",$"{(int)Modifiers.Capslock}:0"]); 
+               if (modifiers[1]) arguments.Add($"{(int)Modifiers.Shift}:1"); 
+               if (modifiers[2]) arguments.Add($"{(int)Modifiers.Ctrl}:1"); 
+               if (modifiers[3]) arguments.Add($"{(int)Modifiers.Alt}:1"); 
+           }
+           
+           void EndModifiers(List<string> arguments, bool[] modifiers ) 
+           { 
+               if (modifiers[0]) arguments.AddRange([$"{(int)Modifiers.Capslock}:1",$"{(int)Modifiers.Capslock}:0"]); 
+               if (modifiers[1]) arguments.Add($"{(int)Modifiers.Shift}:0"); 
+               if (modifiers[2]) arguments.Add($"{(int)Modifiers.Ctrl}:0"); 
+               if (modifiers[3]) arguments.Add($"{(int)Modifiers.Alt}:0"); 
+           }
+       }   
         
         public void LoadFromFile(string translationFilepath)
         {
+            translationFilepath = "/home/cheemsburger/RiderProjects/Niff/Receiver-linux_wayland/KeyState/key_definitions";
             //Ensure collections are empty
             Keys.Clear();
-            Pressed.Clear();
-            Toggled.Clear();
             
             List<string> definitions = File.ReadLines(translationFilepath).ToList();
             foreach (var definition in definitions)
@@ -86,9 +80,13 @@ public static partial class KeyState
                 }
             }
         }
-
-        private string SingleCommand(int ydtIdentifier) => $"{ydtIdentifier}:1 {ydtIdentifier}:0";
-        private string PressedDownCommand(int ydtIdentifier) => $"{ydtIdentifier}:1";
-        private string PressedUpCommand(int ydtIdentifier) => $"{ydtIdentifier}:0";
+        
+        private enum Modifiers
+        {
+            Capslock = 58,
+            Shift = 42,
+            Ctrl = 29,
+            Alt = 100
+        }
     }
 }
