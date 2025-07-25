@@ -7,8 +7,8 @@ public static partial class Cryptography
 {   
     public class RsaKeyStorage
     {
-        DirectoryInfo _authorizedHostsDirectory;
-        DirectoryInfo _authorizedRemoteHostsDirectory;
+        private readonly DirectoryInfo _authorizedHostsDirectory;
+        private readonly DirectoryInfo _authorizedRemoteHostsDirectory;
 
         public RsaKeyStorage(string directoryPath = "/etc/niff")
         {
@@ -20,7 +20,6 @@ public static partial class Cryptography
         {
             foreach (var files in _authorizedRemoteHostsDirectory.EnumerateFiles())
             {
-                
                 
             }
 
@@ -45,7 +44,7 @@ public static partial class Cryptography
             return;
         }
 
-        private void RegisterLocalPublicKeyPemPermanent(Rsa.RsaCryptoDevice cryptoDevice)
+        public void RegisterLocalPublicKeyPemPermanent(Rsa.RsaCryptoDevice cryptoDevice)
         {
             FileStream privateKeyFIle = File.Create($"{_authorizedHostsDirectory.FullName}/id_rsa");
             FileStream publicKeyFile = File.Create($"{_authorizedHostsDirectory.FullName}/id_rsa.pub");

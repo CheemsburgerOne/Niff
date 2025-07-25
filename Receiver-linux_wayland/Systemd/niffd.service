@@ -1,10 +1,10 @@
 ﻿[Unit]
-Description=Niff - virtual remote keyboard receiver
+Description=Niff - remote virtual keyboard receiver
 After=graphical.target
 Requires=ydotoold.service
 
 [Service]
-WorkingDirectory=/usr/bin/niffr
+WorkingDirectory=/usr/bin/niffd
 ExecStart=/usr/bin/dotnet /usr/bin/niffr/
 Restart=always
 RestartSec=10

@@ -11,23 +11,16 @@ public static partial class Network
 {
     public partial class NetworkManager
     {
-        public async Task EstablishEncryptionWithRemotePeer()
+        public async Task EstablishEncryptionWithRemotePeer(Payload.Payload.HelloDto helloDto)
         {
+            //Check if remote public key is authorized
+            if (!_rsaKeyStorage.IsRemotePublicKeyPemRecognized(helloDto.PublicRsaKey)) return;
+
+            Payload.Payload.HelloDto helloDtoResponse =
+                new Payload.Payload.HelloDto(_localKeyCryptoDevice.ExportRsaPublicKeyPem());
             
-            _localKeyCryptoDevice = new Cryptography.Cryptography.Rsa.RsaCryptoDevice()
-
-            string exportedKey = _localKeyCryptoDevice.ExportRsaPkcs8PublicKeyPem();
-
-            Payload.Payload.HelloDto helloDto = new Payload.Payload.HelloDto(exportedKey);
-
-            SendPacket(PacketFlags.Hello, helloDto);
-
-            Packet? received = await ReceivePacket();
-
-            Payload.Payload.HelloDto dto = received!.GetPayloadAsType<Payload.Payload.HelloDto>();
-
-            _remoteKeyCryptoDevice = new Cryptography.Cryptography.Rsa.RsaCryptoDevice(dto.PublicRsaKey, true);
-
+            SendPacket(PacketFlags.Hello, helloDto); ;
+            
             _isEncryptionEstablished = true;
         }
     }

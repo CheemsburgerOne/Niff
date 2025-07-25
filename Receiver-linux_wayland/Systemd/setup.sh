@@ -1,7 +1,7 @@
 ﻿#!/bin/bash
 
 #Script creates a ydotooluser group and assigns root to it. 
-#It creates a socket which ydotool deamon listen to and controls access to the ydotoold socket so that only desired users can interact with the socket.
+#It creates a socket which ydotoold listens to and controls access to the ydotoold socket so that only desired users can interact with the socket.
 #Script also adds permanent variable required by the deamon.
 
 #Check if ydotooluser group exists, if not create it and assign to root

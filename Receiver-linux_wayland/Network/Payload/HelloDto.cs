@@ -1,17 +1,19 @@
-﻿namespace Receiver_linux_wayland.Network.Payload;
+﻿using System.Text.Json.Serialization;
+
+namespace Receiver_linux_wayland.Network.Payload;
 
 public static partial class Payload
 {
     public struct HelloDto : IPayload<HelloDto>
     {
-        public int HeartbeatPort { get; set; }
+        [JsonPropertyName("PRK")]
+        public string? PublicRsaKey { get; set; }
 
-        public HelloDto(int heartbeatPort)
+        public HelloDto(string publicRsaKey)
         {
-            HeartbeatPort = heartbeatPort;
+            PublicRsaKey = publicRsaKey;
         }
 
-        public HelloDto() { }
-
+        public HelloDto(){}
     }
 }

@@ -9,7 +9,6 @@ public static partial class KeyState
     public class KeyStateManager
     {
         private Command _keySequenceCommand;
-        private readonly int _modifierKeyYdtReferenceCount = 4;
         
         private Dictionary<int, Key> Keys { get; } = new Dictionary<int, Key>();
 
@@ -54,7 +53,7 @@ public static partial class KeyState
                if (modifiers[2]) arguments.Add($"{(int)Modifiers.Ctrl}:0"); 
                if (modifiers[3]) arguments.Add($"{(int)Modifiers.Alt}:0"); 
            }
-       }   
+       }
         
         public void LoadFromFile(string translationFilepath)
         {

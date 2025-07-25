@@ -1,4 +1,5 @@
-﻿using CliWrap;
+﻿using System.Diagnostics;
+using CliWrap;
 using Receiver_linux_wayland.Network;
 using Receiver_linux_wayland.Network.Payload;
 
@@ -7,16 +8,26 @@ namespace Receiver_linux_wayland.Core;
 public class CoreService : BackgroundService
 {
 
-    private readonly Receiver_linux_wayland.Network.Network.NetworkManager _networkManager;
-    private readonly KeyState.KeyState.KeyStateManager _keyStateManager = new("ydotool");
+    private Receiver_linux_wayland.Network.Network.NetworkManager _networkManager;
+    private KeyState.KeyState.KeyStateManager _keyStateManager;
     private readonly ILogger<CoreService> _systemdlogger;
-
 
     public CoreService(ILogger<CoreService> logger)
     {
         _systemdlogger = logger;
-        _networkManager = new Receiver_linux_wayland.Network.Network.NetworkManager(logger);
-        _keyStateManager.LoadFromFile("as");
+        InitializeKeyStateManager();
+        InitializeNetworkManager();
+        
+        void InitializeKeyStateManager()
+        {
+            _keyStateManager = new("ydotool");
+            _keyStateManager.LoadFromFile("as");
+        }
+
+        void InitializeNetworkManager()
+        {
+            _networkManager = new Receiver_linux_wayland.Network.Network.NetworkManager(logger);
+        }
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -28,27 +39,42 @@ public class CoreService : BackgroundService
     {
         while (!stoppingToken.IsCancellationRequested)
         {
-            if (!_networkManager.Connected)
-            {
-                await _networkManager.AwaitNewConnection();
-            }
+            if (!_networkManager.Connected) await _networkManager.EstablishNewConnection();
+            
+            Receiver_linux_wayland.Network.Network.Packet? received =
+                await _networkManager.ReceivePacket();
 
-            try
-            {
-                Receiver_linux_wayland.Network.Network.Packet? received =
-                    await _networkManager.ReceivePacketAsync(stoppingToken);
-                
-                Payload.KeyEventDto? dto = received.GetPayloadAsType<Payload.KeyEventDto>();
-                
-                await _keyStateManager.ProcessEvent(dto.Value);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-            }
+            if(received == null) continue;
 
+            switch (_networkManager.PeerState)
+            {
+                case PeerState.Disconnected:
+                    break;
+                case PeerState.Connected:
+                    if (received.Flags == PacketFlags.Hello)
+                    {
+                        Payload.HelloDto helloDto = received.GetPayloadAsType<Payload.HelloDto>();
+                        await _networkManager.EstablishEncryptionWithRemotePeer(helloDto);
+                        continue;
+                    }
+                    
+                    if (received.Flags == PacketFlags.Bye)
+                    {
+                        
+                        continue;
+                    }
+                    break;
+                case PeerState.ConnectedEncrypted:
+                    if (received.Flags == PacketFlags.KeyEvent)
+                    {
+                        Payload.KeyEventDto keyEventDto = received.GetPayloadAsType<Payload.KeyEventDto>();
+                        await _keyStateManager.ProcessEvent(keyEventDto);
+                    }
+                    break;
+                default:
+                    break;
+                
+            }
         }
     }
-    
-    
 }

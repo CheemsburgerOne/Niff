@@ -1,6 +1,7 @@
 ﻿using System.IO.Pipes;
 using System.Net;
 using System.Net.Sockets;
+using System.Runtime.CompilerServices;
 using System.Text.Json;
 using Receiver_linux_wayland.Core;
 using Receiver_linux_wayland.Network.Payload;
@@ -16,6 +17,11 @@ public static partial class Network
         
         private Cryptography.Cryptography.Rsa.RsaCryptoDevice _localKeyCryptoDevice;
         private Cryptography.Cryptography.Rsa.RsaCryptoDevice _remoteKeyCryptoDevice;
+
+        private bool _isEncryptionEstablished = false;
+        public PeerState PeerState => _peerState;
+        private PeerState _peerState = PeerState.Disconnected;
+        private byte _operationId = 0;
         
         private TcpListener _listener;
         private TcpClient? _client;
@@ -29,12 +35,15 @@ public static partial class Network
             InitializeLocalRsaKey();
             InitializeTcpListener(listenPort);
         }
+        
 
         private void InitializeLocalRsaKey()
         {
             Cryptography.Cryptography.Rsa.RsaCryptoDevice? rsaCryptoDevice = 
                 _rsaKeyStorage.LoadLocalKeyFromStorage() ?? new Cryptography.Cryptography.Rsa.RsaCryptoDevice(2048);
-
+            
+            _rsaKeyStorage.RegisterLocalPublicKeyPemPermanent(rsaCryptoDevice);
+            
             _localKeyCryptoDevice  = rsaCryptoDevice;
         }
 
@@ -44,43 +53,64 @@ public static partial class Network
             _listener.Start();
         }
 
-        public async Task AwaitNewConnection() => _client = await _listener.AcceptTcpClientAsync();
-        public void SendPacket<T>(byte operationId, PacketFlags flags, IPayload<T>? payload = null)
+        public async Task EstablishNewConnection()
         {
-            Packet packet = new Packet(operationId, flags);
-            if (payload != null)
-            {
-                if (!packet.TryWithPayload(payload))
-                {
-                    // _logger.LogError();
-                    //If loading the payload has failed, flag this operationId as no action, treat this as skipped operationId
-                    packet = new Packet(operationId, PacketFlags.None);
-                }
-            }
+            _client = await _listener.AcceptTcpClientAsync();
+            _peerState = PeerState.Connected;
+        }
 
+        public void Disconnect()
+        {
+            if (Connected) _client.Close();
+            _remoteKeyCryptoDevice = null;
+        }
+
+        public bool SendPacket<T>(PacketFlags flags, IPayload<T> payload)
+        {
+            byte operationId = AcquireOperationId();
+            
+            Packet packet = new Packet(AcquireOperationId(), flags);
+            if (!packet.TryWithPayload(payload))
+            {
+                //If loading the payload has failed, flag this operationId as no action
+                packet = new Packet(operationId, PacketFlags.None);
+            }
+            
+            byte[]? bytes = packet.Serialize();
+            
+            if (_isEncryptionEstablished) bytes = _remoteKeyCryptoDevice!.Encrypt(bytes);
+            
             try
             {
-                // _client.Send(packet.Serialize());
+                _client!.GetStream().WriteAsync(bytes, 0, bytes.Length).Wait();
+                return true;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                
+                return false;
             }
-            // if (_operationIdSuccessTable[lockedOperationId] == true)
-            // {
-            //     throw new Exception($"Operation has not been acknowledged");
-            // }
-            // _operationIdSuccessTable[lockedOperationId] = true;
         }
         
-        public async Task<Packet?> ReceivePacketAsync(CancellationToken cancellationToken)
+        public async Task<Packet?> ReceivePacket()
         {
-            Memory<byte> receivedBYtes;
-            int readBytes = await _client.GetStream().ReadAsync(receivedBYtes = _buffer.AsMemory(0, 256), cancellationToken);
-
+            System.Memory<byte> memorySlice = _buffer.AsMemory(0, _client!.Available);
+            int readBytes = await _client.GetStream().ReadAsync(memorySlice);
+            
             Packet receivedPacket = new Packet();
 
-            return !receivedPacket.TryLoadFromBytes(receivedBYtes.Slice(0, readBytes).Span) ? null : receivedPacket;
+            if (!_isEncryptionEstablished)
+                return !receivedPacket.TryLoadFromBytes(memorySlice.Span) ? null : receivedPacket;
+            
+            Span<byte> decryptedbytes = new System.Span<byte>(_localKeyCryptoDevice?.Decrypt(memorySlice.Span));
+            return !receivedPacket.TryLoadFromBytes(decryptedbytes) ? null : receivedPacket;
+
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private byte AcquireOperationId()
+        {
+            _operationId = _operationId++;
+            return _operationId;
         }
     }
 }
