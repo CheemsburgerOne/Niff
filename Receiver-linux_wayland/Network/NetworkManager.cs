@@ -13,7 +13,7 @@ public static partial class Network
     public partial class NetworkManager
     {
         private Cryptography.Cryptography.RsaKeyStorage _rsaKeyStorage =
-            new Cryptography.Cryptography.RsaKeyStorage("/tmp/NIff");
+            new Cryptography.Cryptography.RsaKeyStorage();
         
         private Cryptography.Cryptography.Rsa.RsaCryptoDevice _localKeyCryptoDevice;
         private Cryptography.Cryptography.Rsa.RsaCryptoDevice _remoteKeyCryptoDevice;

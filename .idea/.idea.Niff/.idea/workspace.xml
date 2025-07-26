@@ -11,12 +11,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="778b2152-c3d5-434f-bcd9-a59e57b47302" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Receiver-linux_wayland/Network/PeerState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Receiver-linux_wayland/Core/CoreService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Receiver-linux_wayland/Core/CoreService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Receiver-linux_wayland/Network/Cryptography/RsaKeyStorage.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Receiver-linux_wayland/Network/Cryptography/RsaKeyStorage.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Receiver-linux_wayland/Network/NetworkManager.Protocol.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Receiver-linux_wayland/Network/NetworkManager.Protocol.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Niff/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Niff/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Receiver-linux_wayland/Network/NetworkManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Receiver-linux_wayland/Network/NetworkManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Receiver-linux_wayland/Network/Payload/HelloDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Receiver-linux_wayland/Network/Payload/HelloDto.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -124,28 +120,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;.NET Project.Sender-windows.executor&quot;: &quot;Run&quot;,
-    &quot;.NET Project.Tester.executor&quot;: &quot;Run&quot;,
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;Publish to folder.Default Publish.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;SHELLCHECK.PATH&quot;: &quot;/home/cheemsburger/.local/share/JetBrains/Rider2025.1/Shell Script/shellcheck&quot;,
-    &quot;XThreadsFramesViewSplitterKey&quot;: &quot;0.16043614&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;develop-receiver-linux__wayland&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;org.jetbrains.plugins.github.ui.GithubSettingsConfigurable&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    ".NET Project.Sender-windows.executor": "Run",
+    ".NET Project.Tester.executor": "Run",
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Publish to folder.Default Publish.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "SHELLCHECK.PATH": "/home/cheemsburger/.local/share/JetBrains/Rider2025.1/Shell Script/shellcheck",
+    "XThreadsFramesViewSplitterKey": "0.16043614",
+    "git-widget-placeholder": "develop-receiver-linux__wayland",
+    "ignore.virus.scanning.warn.message": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "advanced.settings",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected=".NET Project.Sender-windows">
     <configuration name="Default Publish" type="DotNetFolderPublish" factoryName="Publish to folder">
       <riderPublish configuration="Release" platform="Any CPU" runtime="win-x64" target_folder="$PROJECT_DIR$/Sender-windows/bin/Release/net9.0-windows/win-x64/publish" target_framework="net9.0-windows" uuid_high="-5493222242655188963" uuid_low="-6285975234583902231" />
@@ -220,6 +216,7 @@
       <workItem from="1752616672390" duration="7275000" />
       <workItem from="1753297442016" duration="8313000" />
       <workItem from="1753371786110" duration="5325000" />
+      <workItem from="1753567021248" duration="1250000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <option name="closed" value="true" />
