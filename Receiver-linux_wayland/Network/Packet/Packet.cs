@@ -2,7 +2,7 @@
 using System.Text.Json.Serialization;
 using Receiver_linux_wayland.Network.Payload;
 
-namespace Receiver_linux_wayland.Network;
+namespace Receiver_linux_wayland.Network.Packet;
 
 public static partial class Network
 {

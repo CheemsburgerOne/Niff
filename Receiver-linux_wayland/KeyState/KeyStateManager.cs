@@ -1,6 +1,7 @@
 ﻿using System.Runtime.Serialization;
 using CliWrap;
 using Receiver_linux_wayland.Network.Payload;
+using Receiver_linux_wayland.Ydotool;
 
 namespace Receiver_linux_wayland.KeyState;
 
@@ -8,33 +9,25 @@ public static partial class KeyState
 {
     public class KeyStateManager
     {
-        private Command _keySequenceCommand;
+        private Ydotool.YdotoolHelper _ydotooldHelper;
         
-        private Dictionary<int, Key> Keys { get; } = new Dictionary<int, Key>();
-
-       public KeyStateManager(string executable)
-       {
-           _keySequenceCommand = CliWrap.Cli.Wrap(executable);
-       } 
+        private Dictionary<int, Key> Keys { get; } = new Dictionary<int, Key>(); 
+        public KeyStateManager(string executable, string socketPath)
+        {
+            _ydotooldHelper = new YdotoolHelper(executable, socketPath);
+        } 
        public async Task<bool> ProcessEvent(Payload.KeyEventDto dto) 
        {
            if (dto.Modifiers == null) return false;
-           List<string> command =  new List<string>();
-           command.Add("key");
-           BeginModifiers(command, dto.Modifiers);
+           List<string> keySequence =  new List<string>();
+           keySequence.Add("key");
+           BeginModifiers(keySequence, dto.Modifiers);
            
-           if (Keys.TryGetValue(dto.WpfId, out var key)) command.AddRange([$"{key.YdtIdentifier}:1",$"{key.YdtIdentifier}:0"]);
+           if (Keys.TryGetValue(dto.WpfId, out var key)) keySequence.AddRange([$"{key.YdtIdentifier}:1",$"{key.YdtIdentifier}:0"]);
            
-           EndModifiers(command, dto.Modifiers);
+           EndModifiers(keySequence, dto.Modifiers);
 
-           foreach (var item in command)
-           {
-               Console.Write(item);
-               Console.Write(' ');
-           }
-           Console.Write(Environment.NewLine);
-           
-           await _keySequenceCommand.WithArguments(a => a.Add(command)).ExecuteAsync();
+           await _ydotooldHelper.Key(keySequence);
            
            return true;
            

@@ -1,32 +1,39 @@
 ﻿using System.Diagnostics;
 using CliWrap;
 using Receiver_linux_wayland.Network;
+using Receiver_linux_wayland.Network.Packet;
 using Receiver_linux_wayland.Network.Payload;
 
 namespace Receiver_linux_wayland.Core;
 
 public class CoreService : BackgroundService
 {
-
-    private Receiver_linux_wayland.Network.Network.NetworkManager _networkManager;
+    private NetworkManager _networkManager;
+    
     private KeyState.KeyState.KeyStateManager _keyStateManager;
+    
+    private Ydotool.YdotooldHelper _ydotooldHelper;
+    
     private readonly ILogger<CoreService> _systemdlogger;
 
     public CoreService(ILogger<CoreService> logger)
     {
         _systemdlogger = logger;
-        InitializeKeyStateManager();
+        InitializeKeyStateManagerAndYdotoold();
         InitializeNetworkManager();
         
-        void InitializeKeyStateManager()
+        void InitializeKeyStateManagerAndYdotoold(string socketPath = "/var/niff", string translationPath = "/etc/niff/")
         {
-            _keyStateManager = new("ydotool");
-            _keyStateManager.LoadFromFile("as");
+            _keyStateManager = new("ydotool", socketPath);
+            _keyStateManager.LoadFromFile(translationPath);
+            
+            _ydotooldHelper = new Ydotool.YdotooldHelper("ydotoold", socketPath);
+            _ydotooldHelper.Start().Wait();
         }
 
         void InitializeNetworkManager()
         {
-            _networkManager = new Receiver_linux_wayland.Network.Network.NetworkManager(logger);
+            _networkManager = new NetworkManager(logger, "/etc/niff");
         }
     }
 
@@ -39,14 +46,16 @@ public class CoreService : BackgroundService
     {
         while (!stoppingToken.IsCancellationRequested)
         {
-            if (!_networkManager.Connected) await _networkManager.EstablishNewConnection();
+            //This is neccessary because we cannot wait for a packet from a disconnected user
+            if (_networkManager.PeerState == PeerState.Disconnected)
+            {
+                await _networkManager.WaitNewPeerThenEstablishConnection();
+            }
             
-            Receiver_linux_wayland.Network.Network.Packet? received =
-                await _networkManager.ReceivePacket();
+            Network.Packet.Network.Packet? received = await _networkManager.ReceivePacket();
+            if ( received == null ) continue;
 
-            if(received == null) continue;
-
-            switch (_networkManager.PeerState)
+            switch ( _networkManager.PeerState )
             {
                 case PeerState.Disconnected:
                     break;
@@ -54,14 +63,7 @@ public class CoreService : BackgroundService
                     if (received.Flags == PacketFlags.Hello)
                     {
                         Payload.HelloDto helloDto = received.GetPayloadAsType<Payload.HelloDto>();
-                        await _networkManager.EstablishEncryptionWithRemotePeer(helloDto);
-                        continue;
-                    }
-                    
-                    if (received.Flags == PacketFlags.Bye)
-                    {
-                        
-                        continue;
+                        await _networkManager.ExchangePublicRsaKeysPemWithRemoteHost(helloDto);
                     }
                     break;
                 case PeerState.ConnectedEncrypted:
@@ -70,6 +72,8 @@ public class CoreService : BackgroundService
                         Payload.KeyEventDto keyEventDto = received.GetPayloadAsType<Payload.KeyEventDto>();
                         await _keyStateManager.ProcessEvent(keyEventDto);
                     }
+                    
+                    if (received.Flags == PacketFlags.Bye) _networkManager.Disconnect();
                     break;
                 default:
                     break;
