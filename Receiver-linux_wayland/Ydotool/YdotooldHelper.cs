@@ -4,30 +4,31 @@ namespace Receiver_linux_wayland.Ydotool;
 
 public class YdotooldHelper
 {
-    private string _executable;
-    private string _socketPath;
+    private string _etcPath;
+    private string _varPath;
     
     private Command _startCmd;
     private Command _stopCmd;
     private Command _restartCmd;
     
-    public YdotooldHelper(string executable, string socketPath)
+    public YdotooldHelper(string etcPath, string varPath)
     {
-        _executable = executable;
-        _socketPath = socketPath;
+        _etcPath = etcPath;
+        _varPath = varPath;
         Init();
     }
     
     private void Init()
     {
-        _startCmd = Cli.Wrap(_executable).WithArguments([$"--socket-path={_socketPath}/.ydotoold_socket","--socket-own=1000:1000"] );
-        _stopCmd = Cli.Wrap("pkill").WithArguments(_executable);
+        var start = Cli.Wrap($"{_etcPath}/scripts/ydotoold-helper.sh");
+        _startCmd = start.WithArguments(["start",$"{_varPath}/","7770" ]).WithValidation(CommandResultValidation.None);
+        _stopCmd = start.WithArguments("stop").WithValidation(CommandResultValidation.None);
     }
 
     public async Task<bool> Start()
     {
         var result = await _startCmd.ExecuteAsync();
-        return result.IsSuccess;
+        return result.ExitCode is 0;
     }
 
     public async Task<bool> Stop()
@@ -35,14 +36,4 @@ public class YdotooldHelper
         var result = await _stopCmd.ExecuteAsync();
         return result.ExitCode is 0 or 1;
     }
-
-    public async Task<bool> Restart()
-    {
-        bool stopResult = await Stop();
-        if (!stopResult) return false;
-
-        bool startResult = await Start();
-        return startResult;
-    }
-    
 }

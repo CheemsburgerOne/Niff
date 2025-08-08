@@ -8,8 +8,8 @@ public static partial class Cryptography
 {   
     public class RsaKeyStorage
     {
-        private readonly DirectoryInfo _localDataDir;
-        private readonly DirectoryInfo _authorizedRemoteHostsDirectory;
+        private readonly DirectoryInfo _localKeyDir;
+        private readonly DirectoryInfo _remoteKeysDir;
         
         public Rsa.RsaCryptoDevice LocalHostCryptoDevice => _localKeyCryptoDevice;
         private Rsa.RsaCryptoDevice _localKeyCryptoDevice;
@@ -17,40 +17,25 @@ public static partial class Cryptography
         public Rsa.RsaCryptoDevice RemoteHostCryptoDevice => _remoteKeyCryptoDevice;
         private Rsa.RsaCryptoDevice _remoteKeyCryptoDevice;
 
-        public RsaKeyStorage(string localDataDirectoryPath)
+        public RsaKeyStorage(DirectoryInfo etcDir)
         {
-            if (string.IsNullOrEmpty(localDataDirectoryPath)) throw new ArgumentNullException(nameof(localDataDirectoryPath));
-
-            try
-            {
-                _localDataDir = new DirectoryInfo(localDataDirectoryPath);
-                if (!Directory.Exists($"{_localDataDir.FullName}/remote"))
-                {
-                    _authorizedRemoteHostsDirectory = _localDataDir.CreateSubdirectory("remote");
-                    _authorizedRemoteHostsDirectory.UnixFileMode = UnixFileMode.UserRead | UnixFileMode.UserWrite;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new DirectoryNotFoundException("Failed to initialize data folder structure");
-            }
+            _localKeyDir = etcDir.GetDirectories("local").Single();
+            _remoteKeysDir = etcDir.GetDirectories("remote").Single();
         }
-        public bool CreateLocalPublicKeyPemPermanent(bool forceIfExists = false)
+        
+        public bool RegisterNewLocalRsaKeyPermanent(Rsa.RsaCryptoDevice rsa, bool force = false)
         {
-            if (!forceIfExists)
-            {
-                bool privateKeyExists = File.Exists($"{_localDataDir.FullName}/local/id_rsa");
-                bool publicKeyExists = File.Exists($"{_localDataDir.FullName}/local/id_rsa.pub");
-
-                if (privateKeyExists && publicKeyExists) return false;
-            }
-
-            Rsa.RsaCryptoDevice cryptoDevice = new Rsa.RsaCryptoDevice(2048);
+            bool overriden = false;
             
+            bool privateKeyExists = File.Exists($"{_localKeyDir.FullName}/id_rsa");
+            bool publicKeyExists = File.Exists($"{_localKeyDir.FullName}/id_rsa.pub");
+
+            if (!force && (privateKeyExists || publicKeyExists)) return false;
+              
             try
             {
-                var privateKeyFile = File.Create($"{_localDataDir.FullName}/local/id_rsa");
-                var publicKeyFile = File.Create($"{_localDataDir.FullName}/local/id_rsa.pub");
+                var privateKeyFile = File.Create($"{_localKeyDir.FullName}/local/id_rsa");
+                var publicKeyFile = File.Create($"{_localKeyDir.FullName}/local/id_rsa.pub");
 
                 privateKeyFile.Write(Encoding.UTF8.GetBytes(cryptoDevice.ExportRsaPrivateKeyPem()));
                 publicKeyFile.Write(Encoding.UTF8.GetBytes(cryptoDevice.ExportRsaPublicKeyPem()));
@@ -68,13 +53,13 @@ public static partial class Cryptography
         
         public bool LoadLocalKeyFromStorage()
         {
-            string privateKeyPath = $"{_localDataDir.FullName}/local/id_rsa";
-            string publicKeyPath = $"{_localDataDir.FullName}/local/id_rsa.pub";
+            string privateKeyPath = $"{_localKeyDir.FullName}/id_rsa";
+            string publicKeyPath = $"{_localKeyDir.FullName}/id_rsa.pub";
 
             if (!File.Exists(privateKeyPath) || !File.Exists(publicKeyPath)) return false;
             
-            string privateKey = File.ReadAllText($"{_localDataDir.FullName}/id_rsa");
-            string publicKey = File.ReadAllText($"{_localDataDir.FullName}/id_rsa.pub");
+            string privateKey = File.ReadAllText(privateKeyPath);
+            string publicKey = File.ReadAllText(publicKeyPath);
             
             _localKeyCryptoDevice = new Rsa.RsaCryptoDevice(privateKey, publicKey);
 
@@ -85,11 +70,11 @@ public static partial class Cryptography
         {
             try
             {
-                string keyPath = $"{_authorizedRemoteHostsDirectory.FullName}/remote/{username}.pub";
+                string keyPath = $"{_remoteKeysDir.FullName}/remote/{username}.pub";
 
                 if (File.Exists(keyPath)) return false;
 
-                File.Create(_authorizedRemoteHostsDirectory.FullName).Write(Encoding.UTF8.GetBytes(publicKeyPem));
+                File.Create(_remoteKeysDir.FullName).Write(Encoding.UTF8.GetBytes(publicKeyPem));
             }
             catch (Exception ex)
             {
@@ -103,13 +88,13 @@ public static partial class Cryptography
         {
             try
             {
-                string keyPath = $"{_authorizedRemoteHostsDirectory.FullName}/{username}.pub";
+                string keyPath = $"{_remoteKeysDir.FullName}/{username}.pub";
 
                 if (!File.Exists(keyPath)) return false;
-
-                if( File.ReadAllText(keyPath) == publicKeyPem)
+                string localReference = File.ReadAllText(keyPath);
+                if( localReference == publicKeyPem)
                 {
-                    _remoteKeyCryptoDevice = new Rsa.RsaCryptoDevice(publicKeyPem);
+                    _remoteKeyCryptoDevice = new Rsa.RsaCryptoDevice(localReference);
                     return true;
                 }
             }

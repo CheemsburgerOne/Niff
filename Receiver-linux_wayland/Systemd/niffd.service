@@ -10,6 +10,6 @@ SyslogIdentifier=Niff
 StandardOutput=journal
 StandardError=journal
 User=root
-
 [Install]
 WantedBy=multi-user.target
+Alias=NIffd

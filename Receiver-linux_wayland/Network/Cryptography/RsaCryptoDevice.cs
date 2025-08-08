@@ -13,36 +13,38 @@ public static partial class Cryptography
             
             private readonly RSA? _rsa;
 
-            public RsaCryptoDevice(ReadOnlySpan<char> inputPem)
+            public RsaCryptoDevice(ReadOnlySpan<char> keyPem)
             {
                 _rsa = RSA.Create();
-                ImportFromPem(inputPem);
+                _rsa.ImportFromPem(keyPem);
             }
             
             public RsaCryptoDevice(ReadOnlySpan<char> privateKeyPem, ReadOnlySpan<char> publicKeyPem)
             {
                 _rsa = RSA.Create();
-                ImportFromPem(privateKeyPem, publicKeyPem);
+                _rsa.ImportFromPem(privateKeyPem);
+                _rsa.ImportFromPem(publicKeyPem);
             }
 
             public RsaCryptoDevice(int keySizeInBits)
             {
                 _rsa = RSA.Create(keySizeInBits);
             }
-            
-            private void ImportFromPem(ReadOnlySpan<char> privateKeyPem, ReadOnlySpan<char> publicKeyPem)
+
+            public bool TryExportRsaPublicKeyPem(out string key, bool publicKey)
             {
-                ImportFromPem(privateKeyPem);
-                ImportFromPem(privateKeyPem);
+                try
+                {
+                    key = publicKey ? _rsa!.ExportRSAPublicKeyPem() : _rsa!.ExportRSAPrivateKeyPem();
+                }
+                catch
+                {
+                    key = "";
+                    return false;
+                }
+
+                return true;
             }
-            
-            private void ImportFromPem(ReadOnlySpan<char> input)
-            {
-                _rsa!.ImportFromPem(input);
-            }
-            
-            public string ExportRsaPublicKeyPem() => _rsa!.ExportRSAPublicKeyPem();
-            public string ExportRsaPrivateKeyPem() => _rsa!.ExportRSAPrivateKeyPem();
             
             public byte[] Encrypt(byte[] data) => _rsa!.Encrypt(data, RSAEncryptionPadding.OaepSHA3_256);
             public byte[] Encrypt(ReadOnlySpan<byte> data) => _rsa!.Encrypt(data, RSAEncryptionPadding.OaepSHA3_256);

@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Security;
 using CliWrap;
 using Receiver_linux_wayland.Network;
 using Receiver_linux_wayland.Network.Packet;
@@ -8,26 +9,50 @@ namespace Receiver_linux_wayland.Core;
 
 public class CoreService : BackgroundService
 {
-    private NetworkManager _networkManager;
+    //Directories
+    private DirectoryInfo _etcDirectory;
+    private DirectoryInfo _varDirectory;
     
+    //Modules
+    private NetworkManager _networkManager;
     private KeyState.KeyState.KeyStateManager _keyStateManager;
     
+    //Ydotoold helper
     private Ydotool.YdotooldHelper _ydotooldHelper;
     
-    private readonly ILogger<CoreService> _systemdlogger;
+    //Logger
+    private readonly ILogger<CoreService> _systemdLogger;
 
     public CoreService(ILogger<CoreService> logger)
     {
-        _systemdlogger = logger;
+        _systemdLogger = logger;
+        ValidateAccessRequiredDirectories();
         InitializeKeyStateManagerAndYdotoold();
         InitializeNetworkManager();
-        
-        void InitializeKeyStateManagerAndYdotoold(string socketPath = "/var/niff", string translationPath = "/etc/niff/")
+
+        void ValidateAccessRequiredDirectories()
         {
-            _keyStateManager = new("ydotool", socketPath);
-            _keyStateManager.LoadFromFile(translationPath);
-            
-            _ydotooldHelper = new Ydotool.YdotooldHelper("ydotoold", socketPath);
+            try
+            {
+                _etcDirectory = new DirectoryInfo("/etc/niff");
+                _varDirectory = new DirectoryInfo("/var/niff");
+            }
+            catch (SecurityException ex)
+            {
+                _systemdLogger.LogCritical(ex, "Insufficient permissions to access the required directories");
+                throw new SecurityException(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                _systemdLogger.LogCritical(ex, "Incorrect folder path");
+                throw new Exception(ex.Message);
+            }
+        }
+        
+        void InitializeKeyStateManagerAndYdotoold()
+        {
+            _keyStateManager = new("ydotool", _varDirectory.FullName, _etcDirectory.FullName);
+            _ydotooldHelper = new Ydotool.YdotooldHelper(_etcDirectory.FullName, _varDirectory.FullName);
             _ydotooldHelper.Start().Wait();
         }
 
@@ -36,49 +61,66 @@ public class CoreService : BackgroundService
             _networkManager = new NetworkManager(logger, "/etc/niff");
         }
     }
-
+    
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         await CoreLoop(stoppingToken);
     }
 
+
+
     private async Task CoreLoop(CancellationToken stoppingToken)
     {
+        List<Network.Packet.Network.Packet> packets;
         while (!stoppingToken.IsCancellationRequested)
         {
             //This is neccessary because we cannot wait for a packet from a disconnected user
             if (_networkManager.PeerState == PeerState.Disconnected)
             {
-                await _networkManager.WaitNewPeerThenEstablishConnection();
+                try
+                {
+                    await _networkManager.WaitNewPeerThenEstablishConnection(stoppingToken);
+                }
+                catch (OperationCanceledException)
+                {
+                    return;
+                }
             }
             
-            Network.Packet.Network.Packet? received = await _networkManager.ReceivePacket();
-            if ( received == null ) continue;
+            packets = await _networkManager.ReceivePackets(stoppingToken);
 
+            foreach (var packet in packets) { await ProcessPacket(packet); }
+            _networkManager.Clear();
+        }
+        
+        return;
+
+        async Task ProcessPacket(Network.Packet.Network.Packet packet)
+        {
             switch ( _networkManager.PeerState )
             {
                 case PeerState.Disconnected:
                     break;
                 case PeerState.Connected:
-                    if (received.Flags == PacketFlags.Hello)
+                    if (packet.Flags == PacketFlags.Hello)
                     {
-                        Payload.HelloDto helloDto = received.GetPayloadAsType<Payload.HelloDto>();
+                        Payload.HelloDto helloDto = packet.GetPayloadAsType<Payload.HelloDto>();
                         await _networkManager.ExchangePublicRsaKeysPemWithRemoteHost(helloDto);
                     }
                     break;
                 case PeerState.ConnectedEncrypted:
-                    if (received.Flags == PacketFlags.KeyEvent)
+                    if (packet.Flags == PacketFlags.KeyEvent)
                     {
-                        Payload.KeyEventDto keyEventDto = received.GetPayloadAsType<Payload.KeyEventDto>();
+                        Payload.KeyEventDto keyEventDto = packet.GetPayloadAsType<Payload.KeyEventDto>();
                         await _keyStateManager.ProcessEvent(keyEventDto);
                     }
                     
-                    if (received.Flags == PacketFlags.Bye) _networkManager.Disconnect();
+                    if (packet.Flags == PacketFlags.Bye) _networkManager.Disconnect();
                     break;
                 default:
                     break;
-                
             }
+            return;
         }
     }
 }

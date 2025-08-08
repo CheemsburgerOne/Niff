@@ -10,21 +10,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="778b2152-c3d5-434f-bcd9-a59e57b47302" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Receiver-linux_wayland/Systemd/niff-setup.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Receiver-linux_wayland/Ydotool/YdotoolHelper.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Receiver-linux_wayland/Ydotool/YdotooldHelper.cs" afterDir="false" />
+    <list default="true" id="778b2152-c3d5-434f-bcd9-a59e57b47302" name="Changes" comment="refactor">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Niff/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Niff/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Niff.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/Niff.sln.DotSettings.user" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Receiver-linux_wayland/Core/CoreService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Receiver-linux_wayland/Core/CoreService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Receiver-linux_wayland/KeyState/KeyStateManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Receiver-linux_wayland/KeyState/KeyStateManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Receiver-linux_wayland/Network/Cryptography/RsaKeyStorage.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Receiver-linux_wayland/Network/Cryptography/RsaKeyStorage.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Receiver-linux_wayland/Network/NetworkManager.Protocol.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Receiver-linux_wayland/Network/NetworkManager.Protocol.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Receiver-linux_wayland/Network/NetworkManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Receiver-linux_wayland/Network/NetworkManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Receiver-linux_wayland/Network/PacketFlags.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Receiver-linux_wayland/Network/PacketFlags.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Receiver-linux_wayland/Systemd/niff-setup.sh" beforeDir="false" afterPath="$PROJECT_DIR$/Receiver-linux_wayland/Systemd/niff-setup.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Receiver-linux_wayland/Systemd/niffd.service" beforeDir="false" afterPath="$PROJECT_DIR$/Receiver-linux_wayland/Systemd/niffd.service" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Receiver-linux_wayland/Systemd/setup.sh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Receiver-linux_wayland/Systemd/ydotoold.service" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Receiver-linux_wayland/Ydotool/YdotoolHelper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Receiver-linux_wayland/Ydotool/YdotoolHelper.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Receiver-linux_wayland/Ydotool/YdotooldHelper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Receiver-linux_wayland/Ydotool/YdotooldHelper.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,14 +51,11 @@
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/84114d227fb44078be1f2f633796f11022fa00/68/d803e0af/RSA.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/a706d7e5a1c0480e8071ae8128c1e9638c600/5e/02b519f5/TcpListener.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/a706d7e5a1c0480e8071ae8128c1e9638c600/83/0246566f/Socket.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/bf07be36dfaa4f47b843d44a6617c8b9d19e00/0c/624d4a32/Monitor.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/bf07be36dfaa4f47b843d44a6617c8b9d19e00/44/fbd6cffc/MethodBaseInvoker.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/bf07be36dfaa4f47b843d44a6617c8b9d19e00/c5/f8248ecf/ManualResetEventSlim.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/bf07be36dfaa4f47b843d44a6617c8b9d19e00/cc/7aefcdcb/String.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/24ac88242be85d7d7d4928a2ef574a56476ace496e1aed99fecc73c172a64/Stream.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/838402d166304061809e45e127735cb910718/2a/1ba5af7a/ILogger`1.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/838402d166304061809e45e127735cb910718/cd/5bcd36c2/ILogger.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/23b393789bb834fac8f4c285f7e317cf0a0b42874eedab1321366c175116c/ArgumentException.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/3b78c849787f8ab8566c689cafcc1cbad5e398ee6f11968354573b176cb81/Command.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/b8845c1752beeb67b260191c29ae68760fefbdaeb29e0f259e2435ede5e80/Command.Execution.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="KubernetesApiPersistence">{}</component>
   <component name="KubernetesApiProvider">{
@@ -80,16 +73,20 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
-    &quot;.NET Project.Sender-windows.executor&quot;: &quot;Debug&quot;,
+    &quot;.NET Project.Sender-windows.executor&quot;: &quot;Run&quot;,
     &quot;.NET Project.Tester.executor&quot;: &quot;Run&quot;,
     &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;Publish to folder.Default Publish.executor&quot;: &quot;Run&quot;,
+    &quot;Publish to folder.Publish Niff to folder.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;SHELLCHECK.PATH&quot;: &quot;/home/cheemsburger/.local/share/JetBrains/Rider2025.1/Shell Script/shellcheck&quot;,
+    &quot;Shell Script.niff-setup.sh.executor&quot;: &quot;Run&quot;,
     &quot;Shell Script.setup.sh.executor&quot;: &quot;Run&quot;,
-    &quot;XThreadsFramesViewSplitterKey&quot;: &quot;0.36547434&quot;,
+    &quot;Shell Script.ydotoold-helper.sh.executor&quot;: &quot;Run&quot;,
+    &quot;XThreadsFramesViewSplitterKey&quot;: &quot;0.26168224&quot;,
     &quot;git-widget-placeholder&quot;: &quot;develop-receiver-linux__wayland&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
@@ -97,13 +94,17 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;editor.breadcrumbs&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;application.passwordSafe&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager" selected="Shell Script.niff-setup.sh">
+  <component name="RunManager" selected=".NET Project.Sender-windows">
     <configuration name="Default Publish" type="DotNetFolderPublish" factoryName="Publish to folder">
       <riderPublish configuration="Release" platform="Any CPU" runtime="win-x64" target_folder="$PROJECT_DIR$/Sender-windows/bin/Release/net9.0-windows/win-x64/publish" target_framework="net9.0-windows" uuid_high="-5493222242655188963" uuid_low="-6285975234583902231" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Publish Niff to folder" type="DotNetFolderPublish" factoryName="Publish to folder">
+      <riderPublish configuration="Release" delete_existing_files="true" platform="Any CPU" produce_single_file="true" runtime="linux-x64" self_contained="true" target_folder="$PROJECT_DIR$/Receiver-linux_wayland/bin/Release/net9.0/linux-x64/publish" target_framework="net9.0" trim_unused_assemblies="true" uuid_high="-802902068856140579" uuid_low="-4637438554037226962" />
       <method v="2" />
     </configuration>
     <configuration name="Sender-windows" type="DotNetProject" factoryName=".NET Project">
@@ -167,14 +168,32 @@
       <envs />
       <method v="2" />
     </configuration>
+    <configuration name="ydotoold-helper.sh" type="ShConfigurationType" temporary="true">
+      <option name="SCRIPT_TEXT" value="" />
+      <option name="INDEPENDENT_SCRIPT_PATH" value="true" />
+      <option name="SCRIPT_PATH" value="$PROJECT_DIR$/Receiver-linux_wayland/Ydotool/Scripts/ydotoold-helper.sh" />
+      <option name="SCRIPT_OPTIONS" value="" />
+      <option name="INDEPENDENT_SCRIPT_WORKING_DIRECTORY" value="true" />
+      <option name="SCRIPT_WORKING_DIRECTORY" value="$PROJECT_DIR$/Receiver-linux_wayland/Ydotool/Scripts" />
+      <option name="INDEPENDENT_INTERPRETER_PATH" value="true" />
+      <option name="INTERPRETER_PATH" value="/usr/bin/env" />
+      <option name="INTERPRETER_OPTIONS" value="bash" />
+      <option name="EXECUTE_IN_TERMINAL" value="true" />
+      <option name="EXECUTE_SCRIPT_FILE" value="true" />
+      <envs />
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue=".NET Project.Sender-windows" />
       <item itemvalue=".NET Project.Tester" />
+      <item itemvalue="Publish to folder.Publish Niff to folder" />
       <item itemvalue="Publish to folder.Default Publish" />
+      <item itemvalue="Shell Script.ydotoold-helper.sh" />
       <item itemvalue="Shell Script.niff-setup.sh" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Shell Script.ydotoold-helper.sh" />
         <item itemvalue="Shell Script.niff-setup.sh" />
       </list>
     </recent_temporary>
@@ -212,6 +231,15 @@
       <workItem from="1753999346725" duration="6822000" />
       <workItem from="1754079681430" duration="3071000" />
       <workItem from="1754163671916" duration="8512000" />
+      <workItem from="1754172934852" duration="863000" />
+      <workItem from="1754214542445" duration="10390000" />
+      <workItem from="1754316934253" duration="8808000" />
+      <workItem from="1754335006881" duration="1167000" />
+      <workItem from="1754340552589" duration="4631000" />
+      <workItem from="1754403868619" duration="1104000" />
+      <workItem from="1754405221557" duration="3089000" />
+      <workItem from="1754491870337" duration="12398000" />
+      <workItem from="1754657175801" duration="40000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <option name="closed" value="true" />
@@ -245,7 +273,15 @@
       <option name="project" value="LOCAL" />
       <updated>1751141770186</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="prerelease">
+      <option name="closed" value="true" />
+      <created>1754173415374</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1754173415374</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -282,23 +318,51 @@
     <MESSAGE value="restore" />
     <MESSAGE value="v0.0.1" />
     <MESSAGE value="todo" />
-    <option name="LAST_COMMIT_MESSAGE" value="todo" />
+    <MESSAGE value="prerelease" />
+    <MESSAGE value="refactor" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactor" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Receiver-linux_wayland/KeyState/KeyStateManager.cs</url>
-          <line>30</line>
-          <properties documentPath="$PROJECT_DIR$/Receiver-linux_wayland/KeyState/KeyStateManager.cs" containingFunctionPresentation="Method 'ProcessEvent'">
+          <url>file://$PROJECT_DIR$/Receiver-linux_wayland/Network/NetworkManager.cs</url>
+          <line>105</line>
+          <properties documentPath="$PROJECT_DIR$/Receiver-linux_wayland/Network/NetworkManager.cs" containingFunctionPresentation="Method 'ReceivePackets'">
             <startOffsets>
-              <option value="1079" />
+              <option value="3379" />
             </startOffsets>
             <endOffsets>
-              <option value="1079" />
+              <option value="3453" />
             </endOffsets>
           </properties>
-          <option name="timeStamp" value="86" />
+          <option name="timeStamp" value="97" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Receiver-linux_wayland/Network/NetworkManager.cs</url>
+          <line>118</line>
+          <properties documentPath="$PROJECT_DIR$/Receiver-linux_wayland/Network/NetworkManager.cs" containingFunctionPresentation="Method 'ReceivePackets'">
+            <startOffsets>
+              <option value="3836" />
+            </startOffsets>
+            <endOffsets>
+              <option value="3837" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="98" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Receiver-linux_wayland/Core/CoreService.cs</url>
+          <line>81</line>
+          <properties documentPath="$PROJECT_DIR$/Receiver-linux_wayland/Core/CoreService.cs" containingFunctionPresentation="Method 'CoreLoop'">
+            <startOffsets>
+              <option value="2573" />
+            </startOffsets>
+            <endOffsets>
+              <option value="2645" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="99" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
@@ -307,6 +371,11 @@
         <breakpoint enabled="true" type="javascript-exception" />
       </default-breakpoints>
     </breakpoint-manager>
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="Type#Receiver_linux_wayland.Ydotool.YdotoolHelper" memberName="_keyCmdBase" />
+      </pinned-members>
+    </pin-to-top-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
