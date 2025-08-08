@@ -8,18 +8,18 @@ public static partial class Network
     {
         public async Task EstablishEncryptionWithRemotePeer()
         {
+            //Create local CNG key for encryption
             _localCngKeyCryptoDevice = new Cryptography.Cryptography.RsaCng.RsaCngCryptoDevice("Niff");
-
-            string exportedKey = _localCngKeyCryptoDevice.ExportRsaPkcs8PublicKeyPem();
             
-            Payload.Payload.HelloDto helloDto = new Payload.Payload.HelloDto(exportedKey);
-            
+            //Provide server with a rsa public key
+            Payload.Payload.HelloDto helloDto = 
+                new Payload.Payload.HelloDto(
+                    _localCngKeyCryptoDevice.ExportPublicKeyPem());
             SendPacket(PacketFlags.Hello, helloDto);
 
+            //Create rsa encrption device from remote rsa public key
             Packet? received = await ReceivePacket();
-            
             Payload.Payload.HelloDto dto = received!.GetPayloadAsType<Payload.Payload.HelloDto>();
-
             _remoteKeyCryptoDevice = new Cryptography.Cryptography.Rsa.RsaCryptoDevice(dto.PublicRsaKey, true);
             
             _isEncryptionEstablished = true;

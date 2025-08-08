@@ -76,7 +76,7 @@ public static partial class Cryptography
                 _rsaCng = new RSACng(_cngKey);
             }
             
-            public string ExportRsaPkcs8PublicKeyPem()
+            public string ExportPublicKeyPem()
             {
                 if (_rsaCng == null) throw new InvalidOperationException("Key has not been loaded");
                 return _rsaCng.ExportRSAPublicKeyPem();

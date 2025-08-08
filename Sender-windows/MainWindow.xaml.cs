@@ -39,6 +39,7 @@ public partial class MainWindow : Window
     {
         _networkManager = new Network.Network.NetworkManager();
         var success = await _networkManager.TryConnect("1",2);
+        await _networkManager.EstablishEncryptionWithRemotePeer();
         if (success) SetControlsUserConnected();
     }
     private async void DisconnectButton_OnClick(object sender, RoutedEventArgs e)
@@ -54,7 +55,6 @@ public partial class MainWindow : Window
         PortTextbox.IsEnabled = false;
         ConnectButton.IsEnabled = false;
     }
-
 
     private void SetControlsUserNotConnected()
     {

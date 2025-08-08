@@ -25,7 +25,7 @@ public static partial class Network
         private byte _operationId = 0;
         private TcpClient? _client;
         public bool Connected => _client?.Connected ?? false;
-        private byte[] _buffer = new byte[256];
+        private byte[] _buffer = new byte[1024];
         
         
         public async Task<bool> TryConnect(string hostname, int port)
@@ -85,8 +85,8 @@ public static partial class Network
         
         public async Task<Packet?> ReceivePacket()
         {
-            Memory<byte> memorySlice = _buffer.AsMemory(0, _client!.Available);
-            int readBytes = await _client.GetStream().ReadAsync(memorySlice);
+            int readBytes = await _client.GetStream().ReadAsync(_buffer, 0, _buffer.Length);
+            Memory<byte> memorySlice = _buffer.AsMemory(0, readBytes);
             
             Packet receivedPacket = new Packet();
 
