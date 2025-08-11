@@ -12,20 +12,23 @@ public static partial class KeyState
 {
     public class KeyStateManager
     {
-        private Ydotool.YdotoolHelper _ydotooldHelper;
-        private ILogger<CoreService> _logger;
-        private static readonly int ModifiersCount = 4;
+        DirectoryInfo _etcDir;
+        DirectoryInfo _varDir;
         
         private Dictionary<int, Key> Keys { get; } = new Dictionary<int, Key>(); 
-        public KeyStateManager(string executable, string varPath, string etcPath, ILogger<CoreService> logger)
+        private Ydotool.YdotoolHelper _ydotooldHelper;
+        
+        private ILogger<CoreService> _logger;
+        
+        private static readonly int ModifiersCount = 4;
+        
+        public KeyStateManager(string executable, DirectoryInfo etcDir, DirectoryInfo varDir, ILogger<CoreService> logger)
         {
             ArgumentException.ThrowIfNullOrEmpty(executable);
-            ArgumentException.ThrowIfNullOrEmpty(varPath);
-            ArgumentException.ThrowIfNullOrEmpty(etcPath);
 
             try
             {
-                LoadFromTranslationFile(etcPath);
+                LoadFromTranslationFile(etcDir);
             }
             catch(Exception ex)
             {
@@ -33,7 +36,7 @@ public static partial class KeyState
             }
             
             _logger = logger;
-            _ydotooldHelper = new YdotoolHelper(executable, varPath);
+            _ydotooldHelper = new YdotoolHelper(executable, varDir);
         } 
        public async Task ProcessEvent(Payload.KeyEventDto dto )
        {
@@ -72,9 +75,9 @@ public static partial class KeyState
        /// <param name="etcPath">Path to directory structure /translation/translation.config</param>
        /// <exception cref="IOException">File could not be loaded</exception>
        /// <exception cref="ArgumentException">Definition is not valid</exception>
-       private void LoadFromTranslationFile(string etcPath)
+       private void LoadFromTranslationFile(DirectoryInfo etcDir)
        {
-           string translationFilePath = $"{etcPath}/translation/translation.config".Replace("//","/");
+           string translationFilePath = $"{etcDir.FullName}/translation/translation.config".Replace("//","/");
            
            List<string> definitions;
            

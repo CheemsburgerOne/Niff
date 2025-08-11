@@ -6,6 +6,8 @@ public static partial class Payload
 {
     public struct HelloDto : IPayload<HelloDto>
     {
+        [JsonPropertyName("PU")]
+        public string? Username { get; set; }
         [JsonPropertyName("PRK")]
         public string? PublicRsaKey { get; set; }
 

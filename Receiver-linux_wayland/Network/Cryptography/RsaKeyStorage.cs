@@ -10,70 +10,85 @@ public static partial class Cryptography
     {
         private readonly DirectoryInfo _localKeyDir;
         private readonly DirectoryInfo _remoteKeysDir;
-        
-        public Rsa.RsaCryptoDevice LocalHostCryptoDevice => _localKeyCryptoDevice;
-        private Rsa.RsaCryptoDevice _localKeyCryptoDevice;
 
-        public Rsa.RsaCryptoDevice RemoteHostCryptoDevice => _remoteKeyCryptoDevice;
-        private Rsa.RsaCryptoDevice _remoteKeyCryptoDevice;
+        private readonly string _privateKeyFilename = "id_rsa";
+        private readonly string _publicKeyFilename =  "id_rsa_pub";
+
+        public Rsa.RsaCryptoDevice? LocalHostCryptoDevice { get; private set; }
+
+        public Rsa.RsaCryptoDevice? RemoteHostCryptoDevice { get; private set; }
 
         public RsaKeyStorage(DirectoryInfo etcDir)
         {
-            _localKeyDir = etcDir.GetDirectories("local").Single();
-            _remoteKeysDir = etcDir.GetDirectories("remote").Single();
+            try
+            {
+                _localKeyDir = etcDir.GetDirectories("local").Single();
+                _remoteKeysDir = etcDir.GetDirectories("remote").Single();
+            }
+            catch (InvalidOperationException ex)
+            {
+                throw new InvalidOperationException("Etc directory structure is ambiguous", ex);
+            }
+            catch (Exception ex)
+            {
+                throw new  InvalidOperationException("Etc directory failed to open", ex);
+            }
         }
         
-        public bool RegisterNewLocalRsaKeyPermanent(Rsa.RsaCryptoDevice rsa, bool force = false)
+        public void RegisterNewLocalRsaKeyPermanent(Rsa.RsaCryptoDevice rsa, bool force = false)
         {
-            bool overriden = false;
-            
             bool privateKeyExists = File.Exists($"{_localKeyDir.FullName}/id_rsa");
             bool publicKeyExists = File.Exists($"{_localKeyDir.FullName}/id_rsa.pub");
 
-            if (!force && (privateKeyExists || publicKeyExists)) return false;
-              
+            if (!force && (privateKeyExists || publicKeyExists)) throw new InvalidOperationException("Key already exists");
+
+            bool isPrivKeyExtracted = rsa.TryExportRsaKeyPem(out string? privKey, false);
+            bool isPubKeyExtracted = rsa.TryExportRsaKeyPem(out string? pubKey, true);
+            
+            if (!isPrivKeyExtracted || !isPubKeyExtracted) throw new ArgumentException("Rsa device does not contain required keys");
+            
+            var privateKeyFile = File.Create($"{_localKeyDir.FullName}/id_rsa".Replace("//", "/"));
+            var publicKeyFile = File.Create($"{_localKeyDir.FullName}/id_rsa.pub".Replace("//","/"));
+
+            privateKeyFile.Write(Encoding.UTF8.GetBytes(privKey!));
+            publicKeyFile.Write(Encoding.UTF8.GetBytes(pubKey!));
+
+            privateKeyFile.Close();
+            publicKeyFile.Close();
+        }
+        
+        public bool TryLoadLocalKeyFromStorage()
+        {
+            string privateKeyPath = $"{_localKeyDir.FullName}/{_privateKeyFilename}";
+            string publicKeyPath = $"{_localKeyDir.FullName}/{_publicKeyFilename}";
+
+            if (!File.Exists(privateKeyPath) || !File.Exists(publicKeyPath)) return false;
+
             try
             {
-                var privateKeyFile = File.Create($"{_localKeyDir.FullName}/local/id_rsa");
-                var publicKeyFile = File.Create($"{_localKeyDir.FullName}/local/id_rsa.pub");
+                string privateKey = File.ReadAllText(privateKeyPath);
+                string publicKey = File.ReadAllText(publicKeyPath);
 
-                privateKeyFile.Write(Encoding.UTF8.GetBytes(cryptoDevice.ExportRsaPrivateKeyPem()));
-                publicKeyFile.Write(Encoding.UTF8.GetBytes(cryptoDevice.ExportRsaPublicKeyPem()));
-
-                privateKeyFile.Close();
-                publicKeyFile.Close();
+                LocalHostCryptoDevice = new Rsa.RsaCryptoDevice(privateKey, publicKey);
             }
-            catch (Exception ex)
+            catch
             {
                 return false;
             }
 
             return true;
         }
-        
-        public bool LoadLocalKeyFromStorage()
-        {
-            string privateKeyPath = $"{_localKeyDir.FullName}/id_rsa";
-            string publicKeyPath = $"{_localKeyDir.FullName}/id_rsa.pub";
-
-            if (!File.Exists(privateKeyPath) || !File.Exists(publicKeyPath)) return false;
-            
-            string privateKey = File.ReadAllText(privateKeyPath);
-            string publicKey = File.ReadAllText(publicKeyPath);
-            
-            _localKeyCryptoDevice = new Rsa.RsaCryptoDevice(privateKey, publicKey);
-
-            return true;
-        }
 
         public bool RegisterRemotePublicKeyPem(string username, string publicKeyPem)
         {
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(publicKeyPem)) return false;
+            
+            string keyPath = $"{_remoteKeysDir.FullName}/{username}.pub";
+            
+            if (File.Exists(keyPath)) return false;
+            
             try
             {
-                string keyPath = $"{_remoteKeysDir.FullName}/remote/{username}.pub";
-
-                if (File.Exists(keyPath)) return false;
-
                 File.Create(_remoteKeysDir.FullName).Write(Encoding.UTF8.GetBytes(publicKeyPem));
             }
             catch (Exception ex)
@@ -91,10 +106,12 @@ public static partial class Cryptography
                 string keyPath = $"{_remoteKeysDir.FullName}/{username}.pub";
 
                 if (!File.Exists(keyPath)) return false;
+                
                 string localReference = File.ReadAllText(keyPath);
+                
                 if( localReference == publicKeyPem)
                 {
-                    _remoteKeyCryptoDevice = new Rsa.RsaCryptoDevice(localReference);
+                    RemoteHostCryptoDevice = new Rsa.RsaCryptoDevice(localReference);
                     return true;
                 }
             }
@@ -105,5 +122,7 @@ public static partial class Cryptography
 
             return false;
         }
+
+        public void UnloadRemoteHostCryptoDevice() => RemoteHostCryptoDevice = null;
     }
 }

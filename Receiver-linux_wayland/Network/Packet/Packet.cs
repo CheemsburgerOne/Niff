@@ -22,32 +22,12 @@ public static partial class Network
             Flags = flags;
         }
         
-        public bool TryWithPayload<T>(IPayload<T> payload)
-        {
-            try
-            {
-                Data = payload.Serialize();
-                return true;
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
-        }
+        public void WithPayload<T>(IPayload<T> payload) => Data = payload.Serialize();
         
-        public byte[] Serialize()
-        {
-            try
-            {
-                return JsonSerializer.SerializeToUtf8Bytes(this, JsonSerializerOptions.Default);
-            }
-            catch (NotSupportedException ex)
-            {
-                throw new InvalidOperationException($"Cannot serialize data into {nameof(Packet)}.", ex);
-            }
-        }
+        
+        public byte[] Serialize() => JsonSerializer.SerializeToUtf8Bytes(this, JsonSerializerOptions.Default);
 
-        public bool TryLoadFromBytes(Span<byte> bytes)
+        public bool FromBytes(Span<byte> bytes)
         {
             try
             {
@@ -63,17 +43,6 @@ public static partial class Network
             }
         }
 
-        public T? GetPayloadAsType<T>()
-        {
-            try
-            {
-                return JsonSerializer.Deserialize<T>(Data, JsonSerializerOptions.Default);
-            }
-            catch (NotSupportedException ex)
-            {
-                throw new InvalidOperationException($"Cannot deserialize payload as {nameof(T)}", ex);
-            }
-            
-        }
+        public T? GetPayloadAsType<T>() => JsonSerializer.Deserialize<T>(Data, JsonSerializerOptions.Default);
     }
 }

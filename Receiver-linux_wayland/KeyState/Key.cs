@@ -29,7 +29,7 @@ public static partial class KeyState
             
             Type myself = typeof(Key);
             if (parts.Length -1 != myself.GetProperties().Length) 
-                throw new SerializationException($"Key definition params is not {myself.GetProperties().Length} ");
+                throw new SerializationException($"Key definition has too few arguments: {myself.GetProperties().Length} ");
 
             try
             {

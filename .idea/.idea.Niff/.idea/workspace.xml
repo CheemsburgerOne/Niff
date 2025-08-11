@@ -11,14 +11,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="778b2152-c3d5-434f-bcd9-a59e57b47302" name="Changes" comment="refactor">
+      <change afterPath="$PROJECT_DIR$/Receiver-linux_wayland/Clipboard/ClipboardItem.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Receiver-linux_wayland/Clipboard/ClipboardManager.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Receiver-linux_wayland/Clipboard/ContentType.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Receiver-linux_wayland/Core/CoreService.Initialization.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Receiver-linux_wayland/Core/DirectoryHelper/DirectoryDecendant.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Receiver-linux_wayland/Core/DirectoryHelper/DirectoryDecendantBuilder.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Receiver-linux_wayland/Core/DirectoryHelper/DirectoryHelper.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Receiver-linux_wayland/Core/DirectoryHelper/DirectoryHierarchyBuilder.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Receiver-linux_wayland/Core/DirectoryHelper/IDirectoryDecendantBuilder.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Niff/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Niff/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Niff.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/Niff.sln.DotSettings.user" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Receiver-linux_wayland/Core/CoreService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Receiver-linux_wayland/Core/CoreService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Receiver-linux_wayland/KeyState/Key.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Receiver-linux_wayland/KeyState/Key.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Receiver-linux_wayland/KeyState/KeyStateManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Receiver-linux_wayland/KeyState/KeyStateManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Receiver-linux_wayland/KeyState/modifier_definitions" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Receiver-linux_wayland/Network/Cryptography/RsaCryptoDevice.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Receiver-linux_wayland/Network/Cryptography/RsaCryptoDevice.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Receiver-linux_wayland/Network/Cryptography/RsaKeyStorage.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Receiver-linux_wayland/Network/Cryptography/RsaKeyStorage.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Receiver-linux_wayland/Network/NetworkManager.Protocol.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Receiver-linux_wayland/Network/NetworkManager.Protocol.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Receiver-linux_wayland/Network/NetworkManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Receiver-linux_wayland/Network/NetworkManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Receiver-linux_wayland/Systemd/niff-setup.sh" beforeDir="false" afterPath="$PROJECT_DIR$/Receiver-linux_wayland/Systemd/niff-setup.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Receiver-linux_wayland/Systemd/niffd.service" beforeDir="false" afterPath="$PROJECT_DIR$/Receiver-linux_wayland/Systemd/niffd.service" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Receiver-linux_wayland/Network/Packet/Packet.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Receiver-linux_wayland/Network/Packet/Packet.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Receiver-linux_wayland/Network/Payload/HelloDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Receiver-linux_wayland/Network/Payload/HelloDto.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Receiver-linux_wayland/Ydotool/YdotoolHelper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Receiver-linux_wayland/Ydotool/YdotoolHelper.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Receiver-linux_wayland/Ydotool/YdotooldHelper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Receiver-linux_wayland/Ydotool/YdotooldHelper.cs" afterDir="false" />
     </list>
@@ -51,11 +64,12 @@
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/838402d166304061809e45e127735cb910718/2a/1ba5af7a/ILogger`1.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/838402d166304061809e45e127735cb910718/cd/5bcd36c2/ILogger.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/23b393789bb834fac8f4c285f7e317cf0a0b42874eedab1321366c175116c/ArgumentException.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/3b78c849787f8ab8566c689cafcc1cbad5e398ee6f11968354573b176cb81/Command.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/5d159aa517adaa73ef68eb58934605f5462f36bbb331ab5bdc5cdb138a2d2/TCPListener.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/8e1d8b1898e68b78b98a28b765909f5e8fe77f501fc13d7575127219d3148/Select.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/b8845c1752beeb67b260191c29ae68760fefbdaeb29e0f259e2435ede5e80/Command.Execution.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/e5d623ea960f2c3c9fda144954d339f8d4cd3dad6dd8bd4ab96093a010ab/Dictionary.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Receiver-linux_wayland/Core/DirectoryHelper/DirectoryHelper.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="KubernetesApiPersistence">{}</component>
   <component name="KubernetesApiProvider">{
@@ -67,6 +81,9 @@
   &quot;associatedIndex&quot;: 7
 }</component>
   <component name="ProjectId" id="2yV5Wo1PfE7I2U0CoF9rneufCia" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -113,13 +130,8 @@
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Receiver-linux_wayland" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
-      <option name="ENV_FILE_PATHS" value="" />
-      <option name="REDIRECT_INPUT_PATH" value="" />
-      <option name="PTY_MODE" value="Auto" />
       <option name="USE_MONO" value="0" />
       <option name="RUNTIME_ARGUMENTS" value="" />
-      <option name="AUTO_ATTACH_CHILDREN" value="0" />
-      <option name="MIXED_MODE_DEBUG" value="0" />
       <option name="PROJECT_PATH" value="$PROJECT_DIR$/Receiver-linux_wayland/Receiver-linux_wayland.csproj" />
       <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
@@ -136,13 +148,8 @@
       <option name="WORKING_DIRECTORY" value="" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
-      <option name="ENV_FILE_PATHS" value="" />
-      <option name="REDIRECT_INPUT_PATH" value="" />
-      <option name="PTY_MODE" value="Auto" />
       <option name="USE_MONO" value="0" />
       <option name="RUNTIME_ARGUMENTS" value="" />
-      <option name="AUTO_ATTACH_CHILDREN" value="0" />
-      <option name="MIXED_MODE_DEBUG" value="0" />
       <option name="PROJECT_PATH" value="$PROJECT_DIR$/Tester/Tester.csproj" />
       <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
@@ -240,6 +247,10 @@
       <workItem from="1754405221557" duration="3089000" />
       <workItem from="1754491870337" duration="12398000" />
       <workItem from="1754657175801" duration="40000" />
+      <workItem from="1754775280770" duration="563000" />
+      <workItem from="1754835609397" duration="12246000" />
+      <workItem from="1754849894229" duration="2820000" />
+      <workItem from="1754935319237" duration="2252000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <option name="closed" value="true" />
@@ -324,47 +335,6 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Receiver-linux_wayland/Network/NetworkManager.cs</url>
-          <line>105</line>
-          <properties documentPath="$PROJECT_DIR$/Receiver-linux_wayland/Network/NetworkManager.cs" containingFunctionPresentation="Method 'ReceivePackets'">
-            <startOffsets>
-              <option value="3379" />
-            </startOffsets>
-            <endOffsets>
-              <option value="3453" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="97" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Receiver-linux_wayland/Network/NetworkManager.cs</url>
-          <line>118</line>
-          <properties documentPath="$PROJECT_DIR$/Receiver-linux_wayland/Network/NetworkManager.cs" containingFunctionPresentation="Method 'ReceivePackets'">
-            <startOffsets>
-              <option value="3836" />
-            </startOffsets>
-            <endOffsets>
-              <option value="3837" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="98" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Receiver-linux_wayland/Core/CoreService.cs</url>
-          <line>81</line>
-          <properties documentPath="$PROJECT_DIR$/Receiver-linux_wayland/Core/CoreService.cs" containingFunctionPresentation="Method 'CoreLoop'">
-            <startOffsets>
-              <option value="2573" />
-            </startOffsets>
-            <endOffsets>
-              <option value="2645" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="99" />
-        </line-breakpoint>
-      </breakpoints>
       <default-breakpoints>
         <breakpoint enabled="true" type="CidrExceptionBreakpoint" />
         <breakpoint enabled="true" type="GDSCRIPT_EXCEPTION_BP_TYPE" />
@@ -373,6 +343,9 @@
     </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
+        <PinnedItemInfo parentTag="Type#System.Nullable`1" memberName="Value" />
+        <PinnedItemInfo parentTag="Type#Sender_windows.Network.Payload.Payload+KeyEventDto" memberName="Modifiers" />
+        <PinnedItemInfo parentTag="Type#System.Nullable`1" memberName="value" />
         <PinnedItemInfo parentTag="Type#Receiver_linux_wayland.Ydotool.YdotoolHelper" memberName="_keyCmdBase" />
       </pinned-members>
     </pin-to-top-manager>

@@ -6,23 +6,22 @@ namespace Receiver_linux_wayland.Ydotool;
 public class YdotoolHelper
 {
     private readonly string _executable;
-    private readonly string _varPath;
+    private readonly DirectoryInfo _varDir;
 
     private Command _keyCmdBase;
     
-    public YdotoolHelper(string executable, string varPath)
+    public YdotoolHelper(string executable, DirectoryInfo varDir)
     {
         ArgumentException.ThrowIfNullOrEmpty(executable);
-        ArgumentException.ThrowIfNullOrEmpty(varPath);
         
         _executable = executable;
-        _varPath = varPath;
+        _varDir = varDir;
         
         _keyCmdBase = Cli.Wrap(_executable)
             .WithEnvironmentVariables(
                 builder => builder.Set(
                     "YDOTOOL_SOCKET", 
-                    $"{_varPath}/.ydotoold_socket".Replace("//","/")
+                    $"{_varDir.FullName}/.ydotoold_socket".Replace("//","/")
                 )
             )
             .WithValidation(CommandResultValidation.None);

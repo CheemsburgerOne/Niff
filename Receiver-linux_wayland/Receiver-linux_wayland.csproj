@@ -13,4 +13,16 @@
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.0"/>
         <PackageReference Include="Microsoft.Extensions.Hosting.Systemd" Version="9.0.0" />
     </ItemGroup>
+
+    <ItemGroup>
+      <None Update="Ydotool\Scripts\ydotoold-helper.sh">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Systemd\niff-setup.sh">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="Systemd\niffd.service">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
 </Project>

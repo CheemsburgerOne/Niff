@@ -11,7 +11,7 @@ namespace Receiver_linux_wayland.Network;
 
 public partial class NetworkManager
 {
-    public async Task ExchangePublicRsaKeysPemWithRemoteHost(Payload.Payload.HelloDto helloDto)
+    public void ExchangePublicRsaKeysPemWithRemoteHost(Payload.Payload.HelloDto helloDto)
     {
         //Check if remote public key is authorized
         if (!_rsaKeyStorage.LoadRemoteHostCryptoDeviceIfRecognized("test", helloDto.PublicRsaKey))
@@ -21,11 +21,12 @@ public partial class NetworkManager
         }
         
         //Provide remote peer with a local rsa key PEM
-        Payload.Payload.HelloDto helloDtoResponse = new Payload.Payload.HelloDto(_rsaKeyStorage.LocalHostCryptoDevice.ExportRsaPublicKeyPem());
+        _rsaKeyStorage.LocalHostCryptoDevice.TryExportRsaKeyPem(out string?  publicKeyPem, true);
+        Payload.Payload.HelloDto helloDtoResponse = new Payload.Payload.HelloDto();
         SendPacket(PacketFlags.Hello, helloDtoResponse);
         
         //Enable encryption 
         _isEncryptionEstablished = true;
-        _peerState = PeerState.ConnectedEncrypted;
+        PeerState = PeerState.ConnectedEncrypted;
     }
 }

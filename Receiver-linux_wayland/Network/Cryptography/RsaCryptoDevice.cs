@@ -31,7 +31,7 @@ public static partial class Cryptography
                 _rsa = RSA.Create(keySizeInBits);
             }
 
-            public bool TryExportRsaPublicKeyPem(out string key, bool publicKey)
+            public bool TryExportRsaKeyPem(out string? key, bool publicKey)
             {
                 try
                 {
@@ -39,7 +39,7 @@ public static partial class Cryptography
                 }
                 catch
                 {
-                    key = "";
+                    key = null;
                     return false;
                 }
 
