@@ -38,9 +38,14 @@ public partial class MainWindow : Window
     private async void ConnectButton_OnClick(object sender, RoutedEventArgs e)
     {
         _networkManager = new Network.Network.NetworkManager();
-        var success = await _networkManager.TryConnect("1",2);
+        var connectTask = _networkManager.TryConnect(HostnameTextbox.Text,PortTextbox.Text);
+        
+        SetControlsUserConnected();
+        
+        var success =await connectTask;
+        if (!success) SetControlsUserNotConnected();
+        
         await _networkManager.EstablishEncryptionWithRemotePeer();
-        if (success) SetControlsUserConnected();
     }
     private async void DisconnectButton_OnClick(object sender, RoutedEventArgs e)
     {
@@ -73,8 +78,11 @@ public partial class MainWindow : Window
 
     private void OpenLoadRsaPublicKeyPemFileDialog(object sender, RoutedEventArgs e)
     {
-        OpenFileDialog openFileDialog = new OpenFileDialog();
-        openFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
+        OpenFileDialog openFileDialog = new OpenFileDialog
+        {
+            Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*"
+        };
+        
         if (openFileDialog.ShowDialog() == true)
         {
             string filePath = openFileDialog.FileName;

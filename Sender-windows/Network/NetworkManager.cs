@@ -24,19 +24,27 @@ public static partial class Network
         private bool _isEncryptionEstablished = false;
         private byte _operationId = 0;
         private TcpClient? _client;
+        private string _username;
         public bool Connected => _client?.Connected ?? false;
         private byte[] _buffer = new byte[1024];
         
         
-        public async Task<bool> TryConnect(string hostname, int port)
+        public async Task<bool> TryConnect(string hostname, string port)
         {
+            if (string.IsNullOrEmpty(hostname) || string.IsNullOrEmpty(port)) return false;
             //Setup client parameters and heartbeat port
-            hostname = "192.168.1.27";
-            port = 12015;
+            hostname = "cheemsburger-personal@192.168.1.27";
+            port = "12015";
             try
             {
+                int portParsed = int.Parse(port);
+                
+                var hostPart = hostname.Split('@');
+                if (hostPart.Length != 2) return false;
+                _username = hostPart[0];
+                
                 _client = new TcpClient();
-                await _client.ConnectAsync(hostname, port);
+                await _client.ConnectAsync(hostPart[1], portParsed);
             }
             catch (Exception ex)
             {

@@ -30,9 +30,6 @@
         <Label Name="PortLabel" Content="Port:" Grid.Row="1" Grid.Column="0" Margin="0,0,0,13"/>
         <TextBox x:Name="PortTextbox" x:FieldModifier="public" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Margin="15,0,15,13"/>
         <Button Name="DisconnectButton" Content="Disconnected" Grid.Row="1" Grid.Column="3"  IsEnabled="False" Click="DisconnectButton_OnClick" Margin="0,0,0,13"/>
-        <Label Name="PublicKeyLabel" Content="Port:" Grid.Row="2" Grid.Column="0" Margin="0,0,0,0"/>
-        <Label x:Name="PublicKeyContent" x:FieldModifier="public" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" BorderBrush="DarkGray" BorderThickness="1" Margin="15,0,15,0"/>
-        <Button Name="PublicKeyOpenFileDialogButton" Content="Disconnected" Grid.Row="2" Grid.Column="3"  IsEnabled="False" Click="OpenLoadRsaPublicKeyPemFileDialog"/>
         <Label x:Name="InputKeyField" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" Margin="0,15,0,0" Content="Key capture zone" BorderThickness="1px" BorderBrush="Black" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" ></Label>
     </Grid>
 </Window>

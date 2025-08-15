@@ -14,7 +14,9 @@ public static partial class Network
             //Provide server with a rsa public key
             Payload.Payload.HelloDto helloDto = 
                 new Payload.Payload.HelloDto(
+                    _username,
                     _localCngKeyCryptoDevice.ExportPublicKeyPem());
+            
             SendPacket(PacketFlags.Hello, helloDto);
 
             //Create rsa encrption device from remote rsa public key
