@@ -32,7 +32,7 @@ public static partial class KeyState
             }
             catch(Exception ex)
             {
-                ExceptionDispatchInfo.Capture(ex).Throw();
+                throw new IOException("Key definitions could not be loaded", ex);
             }
             
             _logger = logger;

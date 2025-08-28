@@ -45,7 +45,7 @@ public static partial class Cryptography
 
                 return true;
             }
-            
+
             public byte[] Encrypt(byte[] data) => _rsa!.Encrypt(data, RSAEncryptionPadding.OaepSHA3_256);
             public byte[] Encrypt(ReadOnlySpan<byte> data) => _rsa!.Encrypt(data, RSAEncryptionPadding.OaepSHA3_256);
             

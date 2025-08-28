@@ -15,7 +15,8 @@ public partial class NetworkManager
 
     private bool _isEncryptionEstablished = false;
     private byte _operationId;
-    
+
+    private string _serverName = "cheemstation";
     private TcpListener _listener;
     private TcpClient? _client;
     private NetworkStream? _stream;
@@ -75,24 +76,21 @@ public partial class NetworkManager
     public bool SendPacket<T>(PacketFlags flags, IPayload<T> payload)
     {
         byte operationId = AcquireOperationId();
+
         Packet.Network.Packet packet = new Packet.Network.Packet(AcquireOperationId(), flags);
-        byte[] bytes;
+
+        packet.WithPayload(payload);
+        byte[] bytes = packet.Serialize();
+
+        return TrySendInner(bytes);
+    }
+    
+    private bool TrySendInner(byte[] bytes)
+    {
         try
         {
-            packet.WithPayload(payload);
-            bytes = packet.Serialize();
-            
-            if (PeerState == PeerState.ConnectedEncrypted) 
-                bytes = _rsaKeyStorage.RemoteHostCryptoDevice!.Encrypt(bytes);
-        }
-        catch (Exception ex)
-        {
-            return false;
-        }
-        
-        
-        try
-        { _client!.GetStream().WriteAsync(bytes, 0, bytes.Length);
+            if (_isEncryptionEstablished) bytes = _rsaKeyStorage.RemoteHostCryptoDevice!.Encrypt(bytes);
+            _client!.GetStream().WriteAsync(bytes, 0, bytes.Length).Wait();
             return true;
         }
         catch (Exception ex)
@@ -100,7 +98,7 @@ public partial class NetworkManager
             return false;
         }
     }
-    
+
     public async Task<List<Packet.Network.Packet>> ReceivePackets(CancellationToken stoppingToken)
     {
         int encryptedPacketSize = _rsaKeyStorage.LocalHostCryptoDevice.KeySize / 8;
