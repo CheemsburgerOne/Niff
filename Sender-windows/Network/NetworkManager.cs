@@ -4,6 +4,7 @@ using System.Net.Sockets;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Text;
+using System.Windows;
 using Sender_windows.Network.Payload;
 
 namespace Sender_windows.Network;
@@ -29,38 +30,45 @@ public static partial class Network
         private byte[] _buffer = new byte[1024];
         
         
-        public async Task<bool> TryConnect(string hostname, string port)
+        public async Task<bool> TryConnect(string conectionString, int timeoutMiliseconds)
         {
-            if (string.IsNullOrEmpty(hostname) || string.IsNullOrEmpty(port)) return false;
+            //conectionString = "cheemsburger-personal@192.168.1.27:12015";
+            if (string.IsNullOrEmpty(conectionString)) return false;
             //Setup client parameters and heartbeat port
-            hostname = "cheemsburger-personal@192.168.1.27";
-            port = "12015";
             try
             {
-                int portParsed = int.Parse(port);
+                var split1 = conectionString.Split('@');
+                var username = split1[0];
+                _username = username;
+                if (split1.Length != 2) throw new Exception("Bad connection string");
                 
-                var hostPart = hostname.Split('@');
-                if (hostPart.Length != 2) return false;
-                _username = hostPart[0];
-                
+                var split2 = split1[1].Split(':');
+                if (split2.Length != 2) throw new Exception("Bad connection string");
+                var hostIp =  split2[0];
+                var port = int.Parse(split2[1]);
+
                 _client = new TcpClient();
-                await _client.ConnectAsync(hostPart[1], portParsed);
+                CancellationTokenSource cts = new CancellationTokenSource(timeoutMiliseconds);
+                await _client.ConnectAsync(hostIp, port, cts.Token);
+
+                return true;
+            }
+            catch (OperationCanceledException ex)
+            {
+                MessageBox.Show("Remote host is not responding.", "Timeout");
+                return false;
             }
             catch (Exception ex)
             {
+                MessageBox.Show("Connection string is in incorrect format", "Bad connection string");
                 return false;
             }
-
-            return true;
         }
         
         public async Task Disconnect()
         {
-            if (_client!.Connected)
-            {
-                await _client.GetStream().FlushAsync();
-                _client.Close();
-            }
+            if (_client!.Connected) await _client.GetStream().FlushAsync();
+            _client.Close();
         }
 
         public bool SendPacket<T>(PacketFlags flags, IPayload<T> payload)
@@ -74,12 +82,16 @@ public static partial class Network
                 packet = new Packet(operationId, PacketFlags.None);
             }
             
-            byte[]? bytes = packet.Serialize();
-            
-            if (_isEncryptionEstablished) bytes = _remoteKeyCryptoDevice!.Encrypt(bytes);
-            
+            byte[] bytes = packet.Serialize();
+
+            return TrySendInner(bytes);
+        }
+
+        private bool TrySendInner(byte[] bytes)
+        {
             try
             {
+                if (_isEncryptionEstablished) bytes = _remoteKeyCryptoDevice!.Encrypt(bytes);
                 _client!.GetStream().WriteAsync(bytes, 0, bytes.Length).Wait();
                 return true;
             }
@@ -88,16 +100,14 @@ public static partial class Network
                 return false;
             }
         }
-
-    
         
         public async Task<Packet?> ReceivePacket()
         {
-            int readBytes = await _client.GetStream().ReadAsync(_buffer, 0, _buffer.Length);
+            int readBytes = await _client!.GetStream().ReadAsync(_buffer, 0, _buffer.Length);
             Memory<byte> memorySlice = _buffer.AsMemory(0, readBytes);
             
             Packet receivedPacket = new Packet();
-
+    
             if (!_isEncryptionEstablished)
                 return !receivedPacket.TryLoadFromBytes(memorySlice.Span) ? null : receivedPacket;
             

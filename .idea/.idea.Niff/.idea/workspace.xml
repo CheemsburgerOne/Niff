@@ -11,10 +11,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="778b2152-c3d5-434f-bcd9-a59e57b47302" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Sender-windows/Network/Payload/EmptyDto.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Niff/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Niff/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Niff.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/Niff.sln.DotSettings.user" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sender-windows/App.xaml.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Sender-windows/App.xaml.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Sender-windows/MainWindow.xaml" beforeDir="false" afterPath="$PROJECT_DIR$/Sender-windows/MainWindow.xaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Sender-windows/MainWindow.xaml.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Sender-windows/MainWindow.xaml.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sender-windows/Network/NetworkManager.Protocol.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Sender-windows/Network/NetworkManager.Protocol.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sender-windows/Network/NetworkManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Sender-windows/Network/NetworkManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sender-windows/Network/Tasks.cs" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,7 +48,7 @@
   </component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/CheemsburgerOne/Niff&quot;,
+    &quot;url&quot;: &quot;https://github.com/CheemsburgerOne/Niff.git&quot;,
     &quot;accountId&quot;: &quot;38f9d9f0-a8cd-45b1-a0d5-05e9ef1bbfac&quot;
   }
 }</component>
@@ -60,6 +65,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/212760d42b6ac7f5778e2cb7bd6eec0eb5edc15575b9775855c7a77f8363/TCPClient.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/223575263512e6078c59e5b0cca14f1b24c71cdd23cb73d0abfb47a14f064/CngKey.Exists.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/2379a937a61ac8a5acb3b8a33581af0559f8af15962aa7f163028147098ee5d/SystemdHelpers.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/25a8c0fffd53aa28f75496ac498fadc156172a996794741b3f4980498fad5d/TextBox.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/29b9095b6f479d183d31fb8dd32510123adcee3a46474dbed1ac25328dbb4c/Array.CoreCLR.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/2b5276cdf3f5f54ce607744f6c15422be77ccffc6e6fe0b6ffc9527a4758c/RoutedEventArgs.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/2e8b8aa5d488ba9b46d9ca2a747d6895994b3519f2f231f4e3d1af87b86320/UnsafeNativeMethodsCLR.cs" root0="FORCE_HIGHLIGHTING" />
@@ -88,6 +94,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/8b199e53a773248857fbefcbc39120cdc56cd66c92ee52dd97b894dc48a172b9/Keyboard.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/8c74cab2e127b0da92bb6c88c5aface244f17cd3f87aadd2887951e8581fb3df/ConcurrentQueue.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/8e1d8b1898e68b78b98a28b765909f5e8fe77f501fc13d7575127219d3148/Select.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/8fa7ff80514ffd6ba25ab7e43312e7dbb4a281359941cf3b964c72d84dcd8781/Window.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/9769f0874b89d9a174c39e6c977aef6d979daefa49c7f3c239ef268493ea12/SemaphoreSlim.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/99cef5581e39d0f7015986795665fbcf4faaf30d7a85b182b49666ccaae12/JsonTypeInfoOfT.WriteHelpers.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/99e8bc77d296dbfa0f7a2456d5ae46ce4fe6113f975e32755c54f64bd5a39c/BackgroundService.cs" root0="SKIP_HIGHLIGHTING" />
@@ -127,7 +134,6 @@
     <setting file="file://$PROJECT_DIR$/Sender-windows/Network/Payload/HelloDto.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Sender-windows/Network/Payload/IPayload.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Sender-windows/Network/Payload/KeyEventDto.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Sender-windows/Network/Tasks.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Tester/KeyEventArgsSerializedDto.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Tester/Program.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
@@ -254,6 +260,10 @@
       <workItem from="1754340553075" duration="4697000" />
       <workItem from="1754403842147" duration="4086000" />
       <workItem from="1754657636414" duration="785000" />
+      <workItem from="1755638898150" duration="3888000" />
+      <workItem from="1755807328174" duration="2719000" />
+      <workItem from="1755987124887" duration="4876000" />
+      <workItem from="1756306031306" duration="2615000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <option name="closed" value="true" />
@@ -315,10 +325,38 @@
     <MESSAGE value="init" />
     <MESSAGE value="restore" />
     <MESSAGE value="v0.0.1" />
-    <option name="LAST_COMMIT_MESSAGE" value="v0.0.1" />
+    <option name="LAST_COMMIT_MESSAGE" value="" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Sender-windows/Network/NetworkManager.cs</url>
+          <line>39</line>
+          <properties documentPath="C:\Users\dpasz\Desktop\Projekty\Niff\Linux-receiver\Sender-windows\Network\NetworkManager.cs" containingFunctionPresentation="Method 'TryConnect'">
+            <startOffsets>
+              <option value="1517" />
+            </startOffsets>
+            <endOffsets>
+              <option value="1557" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Sender-windows/MainWindow.xaml.cs</url>
+          <line>33</line>
+          <properties documentPath="C:\Users\dpasz\Desktop\Projekty\Niff\Linux-receiver\Sender-windows\MainWindow.xaml.cs" containingFunctionPresentation="Method 'ConnectButton_OnClick'">
+            <startOffsets>
+              <option value="920" />
+            </startOffsets>
+            <endOffsets>
+              <option value="975" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
       <default-breakpoints>
         <breakpoint enabled="true" type="CidrExceptionBreakpoint" />
         <breakpoint enabled="true" type="GDSCRIPT_EXCEPTION_BP_TYPE" />

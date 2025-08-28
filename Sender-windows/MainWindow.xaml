@@ -7,8 +7,9 @@
         mc:Ignorable="d"
         Title="Niff" Height="325" Width="800"
         Padding="15,15,15,15"
-        KeyUp="DispatchKeyEvent"
-        KeyDown="DispatchKeyEvent"
+        ResizeMode="CanResize"
+        PreviewKeyUp="GlobalPreviewKeyDownHandler"
+        PreviewKeyDown="GlobalPreviewKeyDownHandler"
         >
     <Grid Margin="10">
         <Grid.RowDefinitions>
@@ -24,12 +25,12 @@
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
             
-        <Label Name="HostnameLabel" Content="Hostname:" Grid.Row="0" Grid.Column="0" Margin="0,0,0,13"/>
-        <TextBox x:Name="HostnameTextbox" x:FieldModifier="public" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Margin="15,0,15,13"/>
+        <Label Name="ConnectionStringLabel" Content="Connection string:" Grid.Row="0" Grid.Column="0" Margin="0,0,0,13"/>
+        <TextBox x:Name="ConnectionStringTextbox" x:FieldModifier="public" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Margin="15,0,15,13"/>
         <Button Name="ConnectButton" Content="Connect" Grid.Row="0" Grid.Column="3" Click="ConnectButton_OnClick"  Margin="0,0,0,13"/>
         <Label Name="PortLabel" Content="Port:" Grid.Row="1" Grid.Column="0" Margin="0,0,0,13"/>
         <TextBox x:Name="PortTextbox" x:FieldModifier="public" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Margin="15,0,15,13"/>
         <Button Name="DisconnectButton" Content="Disconnected" Grid.Row="1" Grid.Column="3"  IsEnabled="False" Click="DisconnectButton_OnClick" Margin="0,0,0,13"/>
-        <Label x:Name="InputKeyField" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" Margin="0,15,0,0" Content="Key capture zone" BorderThickness="1px" BorderBrush="Black" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" ></Label>
+        <Label x:Name="InputKeyField" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" Margin="0,7,0,0" Content="Key capture zone" BorderThickness="1px" BorderBrush="Black" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" ></Label>
     </Grid>
 </Window>
